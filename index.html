@@ -17,11 +17,19 @@
 
   <main class="workspace">
     <aside class="sidebar">
+      <button class="home-link active" id="homeLink">
+        <span class="object-icon">⌂</span>
+        <span><strong>Okno główne</strong><small>wszystkie obiekty</small></span>
+      </button>
+      <button class="home-link" id="messagesLink">
+        <span class="object-icon">✉</span>
+        <span><strong>Wiadomości</strong><small>globalna tabela</small></span>
+      </button>
       <div class="section-title">
         <span>OBIEKTY</span>
         <button id="addObject" aria-label="Dodaj obiekt">＋</button>
       </div>
-      <button class="object active" data-object="Pralka">
+      <button class="object" data-object="Pralka">
         <span class="object-icon">P</span>
         <span><strong>Pralka</strong><small>3 stany</small></span>
       </button>
@@ -38,49 +46,129 @@
     <section class="editor">
       <div class="editor-head">
         <div>
-          <small>EDYTOWANY OBIEKT</small>
-          <h1 id="objectName">Pralka</h1>
+          <small id="editorLabel">PROJEKT</small>
+          <h1 id="objectName">Okno główne</h1>
         </div>
-        <button id="addState">＋ Dodaj stan</button>
+        <button id="addState">＋ Dodaj obiekt</button>
       </div>
 
-      <div class="canvas" id="canvas">
-        <p class="canvas-help">Kliknij stan, aby zobaczyć jego właściwości.</p>
+      <div class="canvas home-canvas" id="homeCanvas">
+        <p class="canvas-help">Wybierz obiekt, aby przejść do jego stanów.</p>
 
-        <button class="state state-ready active" data-state="Gotowa" data-description="Oczekuje na załadunek">
-          <span>01</span><strong>GOTOWA</strong><small>stan początkowy</small>
-        </button>
-        <div class="arrow arrow-one">ZaładujPralkeReq →</div>
-        <button class="state state-washing" data-state="Pranie" data-description="Wykonuje aktywny cykl">
-          <span>02</span><strong>PRANIE</strong><small>cykl w toku</small>
-        </button>
-        <div class="arrow arrow-two">TimerZakończony →</div>
-        <button class="state state-done" data-state="Koniec" data-description="Cykl został zakończony">
-          <span>03</span><strong>KONIEC</strong><small>stan końcowy</small>
-        </button>
+        <article class="object-tile" data-object="Pralka" data-tile-id="object-pralka">
+          <div class="tile-head drag-handle">
+            <span class="tile-icon">P</span><span><strong>PRALKA</strong><small>2 atrybuty</small></span>
+            <button class="toggle-details" type="button" aria-label="Pokaż atrybuty i timery" title="Atrybuty i timery">AT</button>
+            <button class="open-object" type="button" data-object="Pralka" aria-label="Otwórz stany obiektu Pralka" title="Otwórz stany">→</button>
+          </div>
+          <button class="delete-object" type="button" aria-label="Usuń obiekt Pralka" title="Usuń obiekt">×</button>
+          <div class="tile-section">
+            <span class="tile-label">STANY</span>
+            <div class="state-list">
+              <button class="mini-state current selected" data-filter-state="gotowa"><i></i>GOTOWA<em>aktualny</em></button>
+              <button class="mini-state" data-filter-state="pranie"><i></i>PRANIE</button>
+              <button class="mini-state" data-filter-state="koniec"><i></i>KONIEC</button>
+            </div>
+          </div>
+          <div class="tile-section triggers">
+            <span class="tile-label">TRIGGERY <b class="trigger-count">3</b></span>
+            <ul>
+              <li data-trigger-state="gotowa" data-actions="Ustaw atrybut: waga = 0"><span class="trigger-icon onstart" title="onStart" aria-label="onStart">▶</span>Wejście w stan</li>
+              <li data-trigger-state="gotowa" data-actions="Ustaw atrybut: waga = 5|Wyślij message: ZaładujPralkeCfm|Zmień stan: PRANIE"><span class="trigger-icon message" title="message" aria-label="message">✉</span>ZaładujPralkeReq</li>
+              <li data-trigger-state="gotowa" data-actions="Wyślij message: ZaładujPralkeRej"><span class="trigger-icon timer" title="timer" aria-label="timer">◷</span>TimeoutZaładunku</li>
+              <li data-trigger-state="pranie" data-actions="Uruchom timer: cyklPrania|Ustaw atrybut: aktywna = true" hidden><span class="trigger-icon onstart" title="onStart" aria-label="onStart">▶</span>Uruchom cykl</li>
+              <li data-trigger-state="pranie" data-actions="Ustaw atrybut: aktywna = false|Zmień stan: KONIEC" hidden><span class="trigger-icon timer" title="timer" aria-label="timer">◷</span>TimerZakończony</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="object-tile" data-object="Robot" data-tile-id="object-robot">
+          <div class="tile-head drag-handle">
+            <span class="tile-icon">R</span><span><strong>ROBOT</strong><small>1 atrybut</small></span>
+            <button class="toggle-details" type="button" aria-label="Pokaż atrybuty i timery" title="Atrybuty i timery">AT</button>
+            <button class="open-object" type="button" data-object="Robot" aria-label="Otwórz stany obiektu Robot" title="Otwórz stany">→</button>
+          </div>
+          <button class="delete-object" type="button" aria-label="Usuń obiekt Robot" title="Usuń obiekt">×</button>
+          <div class="tile-section">
+            <span class="tile-label">STANY</span>
+            <div class="state-list">
+              <button class="mini-state current selected" data-filter-state="idle"><i></i>IDLE<em>aktualny</em></button>
+              <button class="mini-state" data-filter-state="praca"><i></i>PRACA</button>
+            </div>
+          </div>
+          <div class="tile-section triggers">
+            <span class="tile-label">TRIGGERY <b class="trigger-count">2</b></span>
+            <ul>
+              <li data-trigger-state="idle" data-actions="Ustaw atrybut: pozycja = 0"><span class="trigger-icon onstart" title="onStart" aria-label="onStart">▶</span>Wyzeruj pozycję</li>
+              <li data-trigger-state="praca" data-actions="Zmień stan: IDLE" hidden><span class="trigger-icon timer" title="timer" aria-label="timer">◷</span>PracaZakończona</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="object-tile" data-object="Dispatcher" data-tile-id="object-dispatcher">
+          <div class="tile-head drag-handle">
+            <span class="tile-icon">D</span><span><strong>DISPATCHER</strong><small>kolejka wiadomości</small></span>
+            <button class="toggle-details" type="button" aria-label="Pokaż atrybuty i timery" title="Atrybuty i timery">AT</button>
+            <button class="open-object" type="button" data-object="Dispatcher" aria-label="Otwórz stany obiektu Dispatcher" title="Otwórz stany">→</button>
+          </div>
+          <button class="delete-object" type="button" aria-label="Usuń obiekt Dispatcher" title="Usuń obiekt">×</button>
+          <div class="tile-section">
+            <span class="tile-label">STANY</span>
+            <div class="state-list">
+              <button class="mini-state current selected" data-filter-state="czeka"><i></i>CZEKA<em>aktualny</em></button>
+              <button class="mini-state" data-filter-state="wysyla"><i></i>WYSYŁA</button>
+            </div>
+          </div>
+          <div class="tile-section triggers">
+            <span class="tile-label">TRIGGERY <b class="trigger-count">3</b></span>
+            <ul>
+              <li data-trigger-state="czeka" data-actions="Ustaw atrybut: rozmiarKolejki = 0"><span class="trigger-icon onstart" title="onStart" aria-label="onStart">▶</span>Otwórz kolejkę</li>
+              <li data-trigger-state="czeka" data-actions="Zmień stan: WYSYŁA"><span class="trigger-icon timer" title="timer" aria-label="timer">◷</span>SprawdźKolejkę</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="canvas messages-canvas hidden" id="messagesCanvas">
+        <section class="messages-panel">
+          <div class="messages-heading"><div><small>GLOBALNE</small><h2>Wiadomości</h2></div><button id="addMessage" type="button">+ Dodaj wiadomość</button></div>
+          <div id="messagesList" class="messages-list"></div>
+        </section>
+      </div>
+
+      <div class="canvas state-canvas hidden" id="stateCanvas">
+        <p class="canvas-help">Kliknij stan, aby zobaczyć jego właściwości.</p>
       </div>
     </section>
 
     <aside class="properties">
-      <div class="section-title"><span>WŁAŚCIWOŚCI</span></div>
-      <label>
-        Nazwa stanu
-        <input id="stateName" value="Gotowa">
-      </label>
-      <label>
-        Opis
-        <textarea id="stateDescription">Oczekuje na załadunek</textarea>
-      </label>
+      <div id="homeProperties">
+        <div class="section-title"><span>OKNO GŁÓWNE</span></div>
+        <p class="properties-help">Tutaj widzisz wszystkie obiekty symulacji. Wybierz kafelek, aby edytować jego stany.</p>
+        <div class="summary-row"><span>Obiekty</span><strong>3</strong></div>
+        <div class="summary-row"><span>Łącznie stanów</span><strong>3</strong></div>
+      </div>
 
-      <div class="property-block">
-        <div class="section-title">
-          <span>AKCJE PRZY WEJŚCIU</span>
-          <button id="addAction" aria-label="Dodaj akcję">＋</button>
+      <div id="messageProperties" class="hidden">
+        <div class="section-title"><span>WIADOMOŚCI</span></div>
+        <p class="properties-help">Globalna lista wiadomości używanych przez triggery i akcje wszystkich obiektów.</p>
+      </div>
+
+      <div id="stateProperties" class="hidden">
+        <div class="section-title"><span>WŁAŚCIWOŚCI</span></div>
+        <label>
+          Nazwa stanu
+          <input id="stateName" value="Gotowa">
+        </label>
+        <label>
+          Opis
+          <textarea id="stateDescription">Oczekuje na załadunek</textarea>
+        </label>
+
+        <div class="property-block">
+          <div class="section-title"><span>AKCJE ONSTART</span></div>
+          <ul id="actionList"></ul>
         </div>
-        <ul id="actionList">
-          <li><span>Wyślij wiadomość</span><code>PralkaGotowaCfm</code></li>
-          <li><span>Ustaw wartość</span><code>waga = 0</code></li>
-        </ul>
       </div>
     </aside>
   </main>
@@ -91,6 +179,7 @@
   </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
   <script src="script.js"></script>
 </body>
 </html>

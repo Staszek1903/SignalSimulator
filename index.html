@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Komando Wilków Alfa — mockup</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <strong>Komando Wilków Alfa</strong>
+      <span>prosty mockup frontendu</span>
+    </div>
+    <button id="runButton" class="primary">▶ Uruchom</button>
+  </header>
+
+  <main class="workspace">
+    <aside class="sidebar">
+      <div class="section-title">
+        <span>OBIEKTY</span>
+        <button id="addObject" aria-label="Dodaj obiekt">＋</button>
+      </div>
+      <button class="object active" data-object="Pralka">
+        <span class="object-icon">P</span>
+        <span><strong>Pralka</strong><small>3 stany</small></span>
+      </button>
+      <button class="object" data-object="Robot">
+        <span class="object-icon">R</span>
+        <span><strong>Robot</strong><small>brak stanów</small></span>
+      </button>
+      <button class="object" data-object="Dispatcher">
+        <span class="object-icon">D</span>
+        <span><strong>Dispatcher</strong><small>kolejka wiadomości</small></span>
+      </button>
+    </aside>
+
+    <section class="editor">
+      <div class="editor-head">
+        <div>
+          <small>EDYTOWANY OBIEKT</small>
+          <h1 id="objectName">Pralka</h1>
+        </div>
+        <button id="addState">＋ Dodaj stan</button>
+      </div>
+
+      <div class="canvas" id="canvas">
+        <p class="canvas-help">Kliknij stan, aby zobaczyć jego właściwości.</p>
+
+        <button class="state state-ready active" data-state="Gotowa" data-description="Oczekuje na załadunek">
+          <span>01</span><strong>GOTOWA</strong><small>stan początkowy</small>
+        </button>
+        <div class="arrow arrow-one">ZaładujPralkeReq →</div>
+        <button class="state state-washing" data-state="Pranie" data-description="Wykonuje aktywny cykl">
+          <span>02</span><strong>PRANIE</strong><small>cykl w toku</small>
+        </button>
+        <div class="arrow arrow-two">TimerZakończony →</div>
+        <button class="state state-done" data-state="Koniec" data-description="Cykl został zakończony">
+          <span>03</span><strong>KONIEC</strong><small>stan końcowy</small>
+        </button>
+      </div>
+    </section>
+
+    <aside class="properties">
+      <div class="section-title"><span>WŁAŚCIWOŚCI</span></div>
+      <label>
+        Nazwa stanu
+        <input id="stateName" value="Gotowa">
+      </label>
+      <label>
+        Opis
+        <textarea id="stateDescription">Oczekuje na załadunek</textarea>
+      </label>
+
+      <div class="property-block">
+        <div class="section-title">
+          <span>AKCJE PRZY WEJŚCIU</span>
+          <button id="addAction" aria-label="Dodaj akcję">＋</button>
+        </div>
+        <ul id="actionList">
+          <li><span>Wyślij wiadomość</span><code>PralkaGotowaCfm</code></li>
+          <li><span>Ustaw wartość</span><code>waga = 0</code></li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="statusbar">
+    <span id="status"><i></i> Symulacja zatrzymana</span>
+    <span>Backend: niepodłączony</span>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>

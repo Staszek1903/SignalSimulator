@@ -1,0 +1,663 @@
+{
+  "version": "30.4.0",
+  "data": "<mxfile host=\"app.diagrams.net\"><diagram name=\"Strona-1\" id=\"lyVx54PB_0_ioGjdJ3tb\"><mxGraphModel dx=\"3658\" dy=\"3457\" grid=\"1\" gridSize=\"10\" guides=\"1\" tooltips=\"1\" connect=\"1\" arrows=\"1\" fold=\"1\" page=\"1\" pageScale=\"1\" pageWidth=\"827\" pageHeight=\"1169\" math=\"0\" shadow=\"0\"><root><mxCell id=\"0\"/><mxCell id=\"1\" parent=\"0\"/><mxCell id=\"f3lkI7Zm8Mz4aQhtwXek-2\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"Dispatcher\" vertex=\"1\"><mxGeometry height=\"52\" width=\"140\" x=\"260\" y=\"40\" as=\"geometry\"/></mxCell><mxCell id=\"f3lkI7Zm8Mz4aQhtwXek-3\" parent=\"f3lkI7Zm8Mz4aQhtwXek-2\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\" value=\"Ti\" vertex=\"1\"><mxGeometry height=\"26\" width=\"140\" y=\"26\" as=\"geometry\"/></mxCell><mxCell id=\"f3lkI7Zm8Mz4aQhtwXek-6\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"Wątek (Pralka)\" vertex=\"1\"><mxGeometry height=\"130\" width=\"220\" x=\"260\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"f3lkI7Zm8Mz4aQhtwXek-7\" parent=\"f3lkI7Zm8Mz4aQhtwXek-6\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\" value=\"- Wysyłanie message\" vertex=\"1\"><mxGeometry height=\"26\" width=\"220\" y=\"26\" as=\"geometry\"/></mxCell><mxCell id=\"f3lkI7Zm8Mz4aQhtwXek-8\" parent=\"f3lkI7Zm8Mz4aQhtwXek-6\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\" value=\"- Odbieranie i reakcja\" vertex=\"1\"><mxGeometry height=\"26\" width=\"220\" y=\"52\" as=\"geometry\"/></mxCell><mxCell id=\"f3lkI7Zm8Mz4aQhtwXek-9\" parent=\"f3lkI7Zm8Mz4aQhtwXek-6\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\" value=\"- Zmiana stanu&lt;span style=&quot;white-space: pre;&quot;&gt;&#9;&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#9;&lt;/span&gt;\" vertex=\"1\"><mxGeometry height=\"26\" width=\"220\" y=\"78\" as=\"geometry\"/></mxCell><mxCell id=\"f3lkI7Zm8Mz4aQhtwXek-10\" parent=\"f3lkI7Zm8Mz4aQhtwXek-6\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\" value=\"- Zmiana/sprawdzenie wartości pola\" vertex=\"1\"><mxGeometry height=\"26\" width=\"220\" y=\"104\" as=\"geometry\"/></mxCell><mxCell id=\"6KT345YKYyeXrnY3jzX--1\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"Robot\" vertex=\"1\"><mxGeometry height=\"90\" width=\"140\" x=\"70\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"6KT345YKYyeXrnY3jzX--3\" parent=\"6KT345YKYyeXrnY3jzX--1\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Item 2\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"6KT345YKYyeXrnY3jzX--4\" parent=\"6KT345YKYyeXrnY3jzX--1\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Item 3\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"60\" as=\"geometry\"/></mxCell><mxCell id=\"6KT345YKYyeXrnY3jzX--5\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"Proces\" vertex=\"1\"><mxGeometry height=\"150\" width=\"105.01\" x=\"90\" y=\"-350\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-5\" parent=\"6KT345YKYyeXrnY3jzX--5\" style=\"whiteSpace=wrap;html=1;aspect=fixed;\" value=\"Stany:&lt;br&gt;A&lt;br&gt;B&lt;br&gt;C\" vertex=\"1\"><mxGeometry height=\"60\" width=\"105.01\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"6KT345YKYyeXrnY3jzX--7\" parent=\"6KT345YKYyeXrnY3jzX--5\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Trigger\" vertex=\"1\"><mxGeometry height=\"30\" width=\"105.01\" y=\"90\" as=\"geometry\"/></mxCell><mxCell id=\"6KT345YKYyeXrnY3jzX--8\" parent=\"6KT345YKYyeXrnY3jzX--5\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Item 3\" vertex=\"1\"><mxGeometry height=\"30\" width=\"105.01\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"6KT345YKYyeXrnY3jzX--9\" parent=\"1\" style=\"swimlane;startSize=0;\" value=\"\" vertex=\"1\"><mxGeometry height=\"200\" width=\"200\" x=\"40\" y=\"230\" as=\"geometry\"/></mxCell><mxCell id=\"6KT345YKYyeXrnY3jzX--12\" parent=\"6KT345YKYyeXrnY3jzX--9\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;autosize=1;resizable=0;\" value=\"message ZaładujPralkeReq:&lt;div&gt;Int: IlośćPrania: 30&lt;/div&gt;&lt;div&gt;Int: CzasTrwania: 90&lt;/div&gt;&lt;div&gt;String: KolorPrania: Czerwony&lt;/div&gt;\" vertex=\"1\"><mxGeometry height=\"70\" width=\"180\" x=\"10\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"6KT345YKYyeXrnY3jzX--11\" parent=\"6KT345YKYyeXrnY3jzX--9\" style=\"text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;\" value=\"Message\" vertex=\"1\"><mxGeometry height=\"30\" width=\"200\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-1\" parent=\"6KT345YKYyeXrnY3jzX--9\" style=\"whiteSpace=wrap;html=1;\" value=\"Dodaj message\" vertex=\"1\"><mxGeometry height=\"60\" width=\"120\" x=\"40\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--1\" edge=\"1\" parent=\"1\" source=\"Xf0TkbQ_tWuAEyuKg0x--2\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" target=\"Xf0TkbQ_tWuAEyuKg0x--9\"><mxGeometry relative=\"1\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--2\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"MessageDef\" vertex=\"1\"><mxGeometry height=\"60\" width=\"140\" x=\"205\" y=\"920\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--3\" parent=\"Xf0TkbQ_tWuAEyuKg0x--2\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"member_field_list[]\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--4\" edge=\"1\" parent=\"1\" source=\"Xf0TkbQ_tWuAEyuKg0x--5\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;\" target=\"Xf0TkbQ_tWuAEyuKg0x--3\" value=\"`\"><mxGeometry relative=\"1\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--5\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"Field\" vertex=\"1\"><mxGeometry height=\"90\" width=\"140\" x=\"305\" y=\"1030\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--6\" parent=\"Xf0TkbQ_tWuAEyuKg0x--5\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"identifier_name\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--7\" parent=\"Xf0TkbQ_tWuAEyuKg0x--5\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"type\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"60\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--8\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"MessageDefData\" vertex=\"1\"><mxGeometry height=\"60\" width=\"140\" x=\"40\" y=\"810\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--9\" parent=\"Xf0TkbQ_tWuAEyuKg0x--8\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"msg_def_list[]\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--10\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"SimProces\" vertex=\"1\"><mxGeometry height=\"120\" width=\"140\" x=\"325\" y=\"760\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--11\" parent=\"Xf0TkbQ_tWuAEyuKg0x--10\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"state_list\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--12\" parent=\"Xf0TkbQ_tWuAEyuKg0x--10\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Item 2\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"60\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--13\" parent=\"Xf0TkbQ_tWuAEyuKg0x--10\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Item 3\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"90\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--14\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"StateList\" vertex=\"1\"><mxGeometry height=\"60\" width=\"140\" x=\"502.51\" y=\"830\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--16\" parent=\"Xf0TkbQ_tWuAEyuKg0x--14\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"states[]\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--18\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"add_state(state)\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"400\" y=\"910\" as=\"geometry\"/></mxCell><mxCell id=\"Xf0TkbQ_tWuAEyuKg0x--19\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"remove_state(index)\" vertex=\"1\"><mxGeometry height=\"40\" width=\"120\" x=\"400\" y=\"950\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-6\" parent=\"1\" style=\"whiteSpace=wrap;html=1;aspect=fixed;\" value=\"Dodaj Akcję:&lt;div&gt;- Stan&lt;br&gt;&lt;div&gt;- Typ:&lt;/div&gt;&lt;div&gt;- Wyślij message&lt;/div&gt;&lt;div&gt;- Zmień stan&lt;/div&gt;&lt;div&gt;- Atrybut:&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;&#9;&lt;/span&gt;*Dodaj&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;*Zmień&lt;/div&gt;&lt;div&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; *Usuń&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;/div&gt;\" vertex=\"1\"><mxGeometry height=\"170\" width=\"170\" x=\"260\" y=\"-200\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-11\" edge=\"1\" parent=\"1\" source=\"TZ0PqiPO8Z1PhoJyS0BR-6\" style=\"endArrow=classic;html=1;rounded=0;exitX=0.25;exitY=0;exitDx=0;exitDy=0;\" target=\"6KT345YKYyeXrnY3jzX--7\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"180\" y=\"-110\" as=\"sourcePoint\"/><mxPoint x=\"230\" y=\"-160\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-12\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Dodaj stan:&lt;br&gt;- Co się ma wydarzyć przy wejściu w dany stan\" vertex=\"1\"><mxGeometry height=\"90\" width=\"162\" x=\"280\" y=\"-370\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-13\" edge=\"1\" parent=\"1\" source=\"TZ0PqiPO8Z1PhoJyS0BR-12\" style=\"endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" target=\"TZ0PqiPO8Z1PhoJyS0BR-5\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"230\" y=\"-300\" as=\"sourcePoint\"/><mxPoint x=\"190\" y=\"-280\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-14\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"Pralka (przykład)\" vertex=\"1\"><mxGeometry height=\"180\" width=\"190\" x=\"40\" y=\"475\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-15\" parent=\"TZ0PqiPO8Z1PhoJyS0BR-14\" style=\"whiteSpace=wrap;html=1;aspect=fixed;\" value=\"Stany:&lt;br&gt;A&lt;br&gt;&lt;b&gt;B&lt;/b&gt;&lt;br&gt;C\" vertex=\"1\"><mxGeometry height=\"60\" width=\"190\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-16\" parent=\"TZ0PqiPO8Z1PhoJyS0BR-14\" style=\"text;strokeColor=#2D7600;fillColor=#60a917;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontColor=#ffffff;\" value=\"ZaładujPralkeReq:\" vertex=\"1\"><mxGeometry height=\"30\" width=\"190\" y=\"90\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-17\" parent=\"TZ0PqiPO8Z1PhoJyS0BR-14\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"&amp;nbsp; message: ZaładujPralkeCfm(A)\" vertex=\"1\"><mxGeometry height=\"30\" width=\"190\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-32\" parent=\"TZ0PqiPO8Z1PhoJyS0BR-14\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"atrybut: int waga=10 (A)\" vertex=\"1\"><mxGeometry height=\"30\" width=\"190\" y=\"150\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-29\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;align=left;\" value=\"&amp;nbsp; &amp;nbsp;message: ZaładujPralkeRej(B)\" vertex=\"1\"><mxGeometry height=\"40\" width=\"190\" x=\"40\" y=\"655\" as=\"geometry\"/></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-33\" edge=\"1\" parent=\"1\" source=\"TZ0PqiPO8Z1PhoJyS0BR-34\" style=\"endArrow=classic;html=1;rounded=0;entryX=1;entryY=0;entryDx=0;entryDy=0;exitX=0.16;exitY=0.55;exitDx=0;exitDy=0;exitPerimeter=0;\" target=\"TZ0PqiPO8Z1PhoJyS0BR-32\" value=\"\"><mxGeometry height=\"50\" relative=\"1\" width=\"50\" as=\"geometry\"><mxPoint x=\"320\" y=\"580\" as=\"sourcePoint\"/><mxPoint x=\"370\" y=\"590\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"TZ0PqiPO8Z1PhoJyS0BR-34\" parent=\"1\" style=\"ellipse;shape=cloud;whiteSpace=wrap;html=1;\" value=\"Można filtrować po stanie&lt;div&gt;i nic się złego nie stanie&lt;/div&gt;\" vertex=\"1\"><mxGeometry height=\"140\" width=\"210\" x=\"270\" y=\"520\" as=\"geometry\"/></mxCell><mxCell id=\"-fCgnPy93Pt9Dr_HReAn-1\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"Pralka2\" vertex=\"1\"><mxGeometry height=\"180\" width=\"190\" x=\"82.51\" y=\"-760\" as=\"geometry\"/></mxCell><mxCell id=\"-fCgnPy93Pt9Dr_HReAn-2\" parent=\"-fCgnPy93Pt9Dr_HReAn-1\" style=\"whiteSpace=wrap;html=1;aspect=fixed;\" value=\"Stany:&lt;br&gt;A&lt;br&gt;&lt;b&gt;B&lt;/b&gt;&lt;br&gt;C\" vertex=\"1\"><mxGeometry height=\"60\" width=\"190\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"-fCgnPy93Pt9Dr_HReAn-3\" parent=\"-fCgnPy93Pt9Dr_HReAn-1\" style=\"text;strokeColor=#2D7600;fillColor=#60a917;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;fontColor=#ffffff;\" value=\"ZaładujPralkeReq:\" vertex=\"1\"><mxGeometry height=\"30\" width=\"190\" y=\"90\" as=\"geometry\"/></mxCell><mxCell id=\"-fCgnPy93Pt9Dr_HReAn-4\" parent=\"-fCgnPy93Pt9Dr_HReAn-1\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"&amp;nbsp; message: ZaładujPralkeCfm(A)\" vertex=\"1\"><mxGeometry height=\"30\" width=\"190\" y=\"120\" as=\"geometry\"/></mxCell><mxCell id=\"-fCgnPy93Pt9Dr_HReAn-5\" parent=\"-fCgnPy93Pt9Dr_HReAn-1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"waga += m.wagaM (A)\" vertex=\"1\"><mxGeometry height=\"30\" width=\"190\" y=\"150\" as=\"geometry\"/></mxCell><mxCell id=\"-fCgnPy93Pt9Dr_HReAn-6\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;align=left;\" value=\"&amp;nbsp; &amp;nbsp;message: ZaładujPralkeRej(B)\" vertex=\"1\"><mxGeometry height=\"40\" width=\"190\" x=\"82.51\" y=\"-580\" as=\"geometry\"/></mxCell><mxCell id=\"-fCgnPy93Pt9Dr_HReAn-7\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"mapaStanA\" vertex=\"1\"><mxGeometry height=\"130\" width=\"190\" x=\"312.51\" y=\"-760\" as=\"geometry\"/></mxCell><mxCell id=\"-fCgnPy93Pt9Dr_HReAn-8\" parent=\"-fCgnPy93Pt9Dr_HReAn-7\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Klucz: załadujPralkeReq (String)\" vertex=\"1\"><mxGeometry height=\"40\" width=\"190\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"-fCgnPy93Pt9Dr_HReAn-9\" parent=\"-fCgnPy93Pt9Dr_HReAn-7\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Wartość: vector&amp;lt;Operacja*&amp;gt;(Funktor[x])&lt;div&gt;x -&amp;gt; ilość pojedynczych operacji&lt;/div&gt;\" vertex=\"1\"><mxGeometry height=\"60\" width=\"190\" y=\"70\" as=\"geometry\"/></mxCell><mxCell id=\"K3JtAVmbqUZBtR8qeoka-1\" parent=\"1\" style=\"ellipse;whiteSpace=wrap;html=1;aspect=fixed;\" value=\"\" vertex=\"1\"><mxGeometry height=\"80\" width=\"80\" x=\"-1480\" y=\"-1475\" as=\"geometry\"/></mxCell><mxCell id=\"K3JtAVmbqUZBtR8qeoka-2\" parent=\"1\" style=\"ellipse;whiteSpace=wrap;html=1;aspect=fixed;\" value=\"\" vertex=\"1\"><mxGeometry height=\"80\" width=\"80\" x=\"-1410\" y=\"-1480\" as=\"geometry\"/></mxCell><mxCell id=\"K3JtAVmbqUZBtR8qeoka-3\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"\" vertex=\"1\"><mxGeometry height=\"60\" width=\"30\" x=\"-1420\" y=\"-1520\" as=\"geometry\"/></mxCell><mxCell id=\"K3JtAVmbqUZBtR8qeoka-4\" parent=\"1\" style=\"ellipse;whiteSpace=wrap;html=1;aspect=fixed;\" value=\"\" vertex=\"1\"><mxGeometry height=\"40\" width=\"40\" x=\"-1425\" y=\"-1540\" as=\"geometry\"/></mxCell><mxCell id=\"K3JtAVmbqUZBtR8qeoka-5\" parent=\"1\" style=\"verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.flash\" value=\"\" vertex=\"1\"><mxGeometry height=\"100\" width=\"60\" x=\"-1410\" y=\"-1650\" as=\"geometry\"/></mxCell><mxCell id=\"K3JtAVmbqUZBtR8qeoka-6\" parent=\"1\" style=\"verticalLabelPosition=bottom;verticalAlign=top;html=1;shape=mxgraph.basic.smiley\" value=\"\" vertex=\"1\"><mxGeometry height=\"40\" width=\"45\" x=\"-1427.5\" y=\"-1540\" as=\"geometry\"/></mxCell><mxCell id=\"K3JtAVmbqUZBtR8qeoka-7\" parent=\"1\" style=\"labelPosition=center;verticalLabelPosition=middle;align=center;html=1;shape=mxgraph.basic.shaded_button;dx=10;fillColor=#E6E6E6;strokeColor=none;whiteSpace=wrap;\" value=\"Andrzej\" vertex=\"1\"><mxGeometry height=\"60\" width=\"100\" x=\"-1455\" y=\"-1395\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-10\" edge=\"1\" parent=\"1\" source=\"BZh6_hl6Fm0YADOOg5kH-1\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\" target=\"BZh6_hl6Fm0YADOOg5kH-5\"><mxGeometry relative=\"1\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-1\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"Grafika\" vertex=\"1\"><mxGeometry height=\"60\" width=\"140\" x=\"950\" y=\"730\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-2\" parent=\"BZh6_hl6Fm0YADOOg5kH-1\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Inputy uzytkownika generują instrukcje input/ output\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-11\" edge=\"1\" parent=\"1\" source=\"BZh6_hl6Fm0YADOOg5kH-5\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.25;entryDx=0;entryDy=0;\" target=\"BZh6_hl6Fm0YADOOg5kH-6\"><mxGeometry relative=\"1\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-5\" parent=\"1\" style=\"shape=step;perimeter=stepPerimeter;whiteSpace=wrap;html=1;fixedSize=1;\" value=\"FASADA\" vertex=\"1\"><mxGeometry height=\"80\" width=\"120\" x=\"1140\" y=\"720\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-6\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"ProgramSymulacja\" vertex=\"1\"><mxGeometry height=\"90\" width=\"140\" x=\"1330\" y=\"730\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-7\" parent=\"BZh6_hl6Fm0YADOOg5kH-6\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Dodawanie Usuwanie EDycja Danych\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-8\" parent=\"BZh6_hl6Fm0YADOOg5kH-6\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Management runtimu/symulacji(start/stop/itd)\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"60\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-16\" parent=\"1\" style=\"whiteSpace=wrap;html=1;aspect=fixed;\" value=\"ZBIUR OBJEKTÓF WĄTKUF\" vertex=\"1\"><mxGeometry height=\"80\" width=\"80\" x=\"1360\" y=\"920\" as=\"geometry\"/></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-17\" edge=\"1\" parent=\"1\" source=\"BZh6_hl6Fm0YADOOg5kH-16\" style=\"endArrow=open;html=1;endSize=12;startArrow=diamondThin;startSize=14;startFill=1;edgeStyle=orthogonalEdgeStyle;align=left;verticalAlign=bottom;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.167;entryDx=0;entryDy=0;entryPerimeter=0;\" target=\"BZh6_hl6Fm0YADOOg5kH-6\" value=\"1\"><mxGeometry relative=\"1\" x=\"-1\" y=\"3\" as=\"geometry\"><Array as=\"points\"><mxPoint x=\"1510\" y=\"960\"/><mxPoint x=\"1510\" y=\"745\"/></Array><mxPoint x=\"750\" y=\"660\" as=\"sourcePoint\"/><mxPoint x=\"1410\" y=\"830\" as=\"targetPoint\"/></mxGeometry></mxCell><mxCell id=\"BZh6_hl6Fm0YADOOg5kH-18\" parent=\"1\" style=\"shape=note;size=20;whiteSpace=wrap;html=1;\" value=\"ZADANIA:&lt;br&gt;&lt;br&gt;PAPRYK WYMYŚLO INTERGEJS SYMULACJA - GRAFIKA/UZYTKOWNIK&lt;br&gt;&lt;br&gt;RYŚ: WYMYSLO LOGIKA SYMULACJI ORAS SBIUR OPERACJI ATOMOWYCH\" vertex=\"1\"><mxGeometry height=\"150\" width=\"220\" x=\"1030\" y=\"890\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-1\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"ZaładujPralkeCfm\" vertex=\"1\"><mxGeometry height=\"90\" width=\"140\" x=\"-220\" y=\"-670\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-2\" parent=\"5R7_GCBQ1uC85ukY3Vny-1\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Int: wagaM: 30\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-3\" parent=\"5R7_GCBQ1uC85ukY3Vny-1\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"string info &quot;Udało się&quot;\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"60\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-1\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;\" value=\"Odbiorca\" vertex=\"1\"><mxGeometry height=\"52\" width=\"140\" x=\"580\" y=\"-526\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-2\" parent=\"6qojKDNoq6iwC1_QTTSS-1\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\" value=\"Obiera uint8_t[] size:15\" vertex=\"1\"><mxGeometry height=\"26\" width=\"140\" y=\"26\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-10\" edge=\"1\" parent=\"1\" source=\"6qojKDNoq6iwC1_QTTSS-5\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;\" target=\"6qojKDNoq6iwC1_QTTSS-1\"><mxGeometry relative=\"1\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-5\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;html=1;\" value=\"MsgDefinitionDB\" vertex=\"1\"><mxGeometry height=\"90\" width=\"140\" x=\"580\" y=\"-670\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-6\" parent=\"6qojKDNoq6iwC1_QTTSS-5\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;\" value=\"getDefinition(MsgId) -&amp;gt; MsgDefinition\" vertex=\"1\"><mxGeometry height=\"64\" width=\"140\" y=\"26\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-11\" parent=\"1\" style=\"shape=singleArrow;whiteSpace=wrap;html=1;\" value=\"MsgDupaReq(encoded)\" vertex=\"1\"><mxGeometry height=\"60\" width=\"160\" x=\"420\" y=\"-530\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-7\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"11001010101\" vertex=\"1\"><mxGeometry height=\"60\" width=\"120\" x=\"-210\" y=\"-790\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-22\" edge=\"1\" parent=\"1\" source=\"6qojKDNoq6iwC1_QTTSS-12\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" target=\"6qojKDNoq6iwC1_QTTSS-19\"><mxGeometry relative=\"1\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-12\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"AtrybutDefinition\" vertex=\"1\"><mxGeometry height=\"120\" width=\"140\" x=\"980\" y=\"-637\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-13\" parent=\"6qojKDNoq6iwC1_QTTSS-12\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Type:Enum (int/ float bool string))\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-14\" parent=\"6qojKDNoq6iwC1_QTTSS-12\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Size:int\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"60\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-15\" parent=\"6qojKDNoq6iwC1_QTTSS-12\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"indentyfikator:string\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"90\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-21\" edge=\"1\" parent=\"1\" source=\"6qojKDNoq6iwC1_QTTSS-16\" style=\"edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" target=\"6qojKDNoq6iwC1_QTTSS-6\"><mxGeometry relative=\"1\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-16\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"MsgDefinition\" vertex=\"1\"><mxGeometry height=\"90\" width=\"140\" x=\"800\" y=\"-652\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-18\" parent=\"6qojKDNoq6iwC1_QTTSS-16\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Name\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"6qojKDNoq6iwC1_QTTSS-19\" parent=\"6qojKDNoq6iwC1_QTTSS-16\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"AtributeDefinition[]\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"60\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-8\" parent=\"1\" style=\"whiteSpace=wrap;html=1;aspect=fixed;\" value=\"int rozmiar = 10&lt;br&gt;&lt;div&gt;int waga = 6&lt;/div&gt;\" vertex=\"1\"><mxGeometry height=\"110\" width=\"110\" x=\"122.51\" y=\"-890\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-9\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"atrybut: int waga += m.wagaM (A)\" vertex=\"1\"><mxGeometry height=\"30\" width=\"190\" x=\"-150\" y=\"-480\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-10\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"if waga &amp;gt; 30 (A)\" vertex=\"1\"><mxGeometry height=\"30\" width=\"190\" x=\"-150\" y=\"-450\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-11\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"atrybut: int waga -= m.wagaM (A)\" vertex=\"1\"><mxGeometry height=\"30\" width=\"190\" x=\"-150\" y=\"-420\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-12\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"Każda kloasa ma swoje wektorytypów podstawowych. Dodatkowo jest lookup table żeby było wiadoo w jakim miejscu w bicie sie znajduje\" vertex=\"1\"><mxGeometry height=\"130\" width=\"120\" x=\"-100\" y=\"-1110\" as=\"geometry\"/></mxCell><mxCell id=\"5R7_GCBQ1uC85ukY3Vny-13\" parent=\"1\" style=\"rounded=0;whiteSpace=wrap;html=1;\" value=\"W przypadku operacji dostępu do elementu szukamy po nazwie na jakim jest miejscu i po tym dostajemy się do tego miejsca danych w wektorze\" vertex=\"1\"><mxGeometry height=\"140\" width=\"120\" x=\"50\" y=\"-1110\" as=\"geometry\"/></mxCell><mxCell id=\"votS2zKtsrjTJHkMnA4A-2\" parent=\"1\" style=\"swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;\" value=\"Lista rodzajów akcji\" vertex=\"1\"><mxGeometry height=\"120\" width=\"140\" x=\"325\" y=\"-1090\" as=\"geometry\"/></mxCell><mxCell id=\"votS2zKtsrjTJHkMnA4A-3\" parent=\"votS2zKtsrjTJHkMnA4A-2\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Wyślij wiadomość\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"30\" as=\"geometry\"/></mxCell><mxCell id=\"votS2zKtsrjTJHkMnA4A-4\" parent=\"votS2zKtsrjTJHkMnA4A-2\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Operacja Atrybutowa\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"60\" as=\"geometry\"/></mxCell><mxCell id=\"votS2zKtsrjTJHkMnA4A-5\" parent=\"votS2zKtsrjTJHkMnA4A-2\" style=\"text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;\" value=\"Zmień stan\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" y=\"90\" as=\"geometry\"/></mxCell><mxCell id=\"votS2zKtsrjTJHkMnA4A-18\" parent=\"1\" style=\"text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;strokeWidth=1;\" value=\"Odpal timer\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" x=\"325\" y=\"-970\" as=\"geometry\"/></mxCell><mxCell id=\"votS2zKtsrjTJHkMnA4A-19\" parent=\"1\" style=\"text;strokeColor=default;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;whiteSpace=wrap;html=1;strokeWidth=1;\" value=\"Odpal timer\" vertex=\"1\"><mxGeometry height=\"30\" width=\"140\" x=\"325\" y=\"-940\" as=\"geometry\"/></mxCell></root></mxGraphModel></diagram></mxfile>",
+  "pages": [
+    {
+      "id": "lyVx54PB_0_ioGjdJ3tb",
+      "name": "Strona-1",
+      "cells": [
+        {
+          "id": "1",
+          "type": "layer"
+        },
+        {
+          "id": "f3lkI7Zm8Mz4aQhtwXek-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Dispatcher"
+        },
+        {
+          "id": "f3lkI7Zm8Mz4aQhtwXek-3",
+          "type": "node",
+          "parent": "f3lkI7Zm8Mz4aQhtwXek-2",
+          "label": "Ti"
+        },
+        {
+          "id": "f3lkI7Zm8Mz4aQhtwXek-6",
+          "type": "node",
+          "parent": "1",
+          "label": "Wątek (Pralka)"
+        },
+        {
+          "id": "f3lkI7Zm8Mz4aQhtwXek-7",
+          "type": "node",
+          "parent": "f3lkI7Zm8Mz4aQhtwXek-6",
+          "label": "- Wysyłanie message"
+        },
+        {
+          "id": "f3lkI7Zm8Mz4aQhtwXek-8",
+          "type": "node",
+          "parent": "f3lkI7Zm8Mz4aQhtwXek-6",
+          "label": "- Odbieranie i reakcja"
+        },
+        {
+          "id": "f3lkI7Zm8Mz4aQhtwXek-9",
+          "type": "node",
+          "parent": "f3lkI7Zm8Mz4aQhtwXek-6",
+          "label": "- Zmiana stanu",
+          "html": "- Zmiana stanu<span style=\"white-space: pre;\">\t</span><span style=\"white-space: pre;\">\t</span>"
+        },
+        {
+          "id": "f3lkI7Zm8Mz4aQhtwXek-10",
+          "type": "node",
+          "parent": "f3lkI7Zm8Mz4aQhtwXek-6",
+          "label": "- Zmiana/sprawdzenie wartości pola"
+        },
+        {
+          "id": "6KT345YKYyeXrnY3jzX--1",
+          "type": "node",
+          "parent": "1",
+          "label": "Robot"
+        },
+        {
+          "id": "6KT345YKYyeXrnY3jzX--3",
+          "type": "node",
+          "parent": "6KT345YKYyeXrnY3jzX--1",
+          "label": "Item 2"
+        },
+        {
+          "id": "6KT345YKYyeXrnY3jzX--4",
+          "type": "node",
+          "parent": "6KT345YKYyeXrnY3jzX--1",
+          "label": "Item 3"
+        },
+        {
+          "id": "6KT345YKYyeXrnY3jzX--5",
+          "type": "node",
+          "parent": "1",
+          "label": "Proces"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-5",
+          "type": "node",
+          "parent": "6KT345YKYyeXrnY3jzX--5",
+          "label": "Stany:\nA\nB\nC",
+          "html": "Stany:<br>A<br>B<br>C"
+        },
+        {
+          "id": "6KT345YKYyeXrnY3jzX--7",
+          "type": "node",
+          "parent": "6KT345YKYyeXrnY3jzX--5",
+          "label": "Trigger"
+        },
+        {
+          "id": "6KT345YKYyeXrnY3jzX--8",
+          "type": "node",
+          "parent": "6KT345YKYyeXrnY3jzX--5",
+          "label": "Item 3"
+        },
+        {
+          "id": "6KT345YKYyeXrnY3jzX--9",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "6KT345YKYyeXrnY3jzX--12",
+          "type": "node",
+          "parent": "6KT345YKYyeXrnY3jzX--9",
+          "label": "message ZaładujPralkeReq:\nInt: IlośćPrania: 30\nInt: CzasTrwania: 90\nString: KolorPrania: Czerwony",
+          "html": "message ZaładujPralkeReq:<div>Int: IlośćPrania: 30</div><div>Int: CzasTrwania: 90</div><div>String: KolorPrania: Czerwony</div>"
+        },
+        {
+          "id": "6KT345YKYyeXrnY3jzX--11",
+          "type": "node",
+          "parent": "6KT345YKYyeXrnY3jzX--9",
+          "label": "Message"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-1",
+          "type": "node",
+          "parent": "6KT345YKYyeXrnY3jzX--9",
+          "label": "Dodaj message"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--1",
+          "type": "edge",
+          "parent": "1",
+          "source": "Xf0TkbQ_tWuAEyuKg0x--2",
+          "target": "Xf0TkbQ_tWuAEyuKg0x--9"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--2",
+          "type": "node",
+          "parent": "1",
+          "label": "MessageDef"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--3",
+          "type": "node",
+          "parent": "Xf0TkbQ_tWuAEyuKg0x--2",
+          "label": "member_field_list[]"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--4",
+          "type": "edge",
+          "parent": "1",
+          "source": "Xf0TkbQ_tWuAEyuKg0x--5",
+          "target": "Xf0TkbQ_tWuAEyuKg0x--3",
+          "label": "`"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--5",
+          "type": "node",
+          "parent": "1",
+          "label": "Field"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--6",
+          "type": "node",
+          "parent": "Xf0TkbQ_tWuAEyuKg0x--5",
+          "label": "identifier_name"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--7",
+          "type": "node",
+          "parent": "Xf0TkbQ_tWuAEyuKg0x--5",
+          "label": "type"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--8",
+          "type": "node",
+          "parent": "1",
+          "label": "MessageDefData"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--9",
+          "type": "node",
+          "parent": "Xf0TkbQ_tWuAEyuKg0x--8",
+          "label": "msg_def_list[]"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--10",
+          "type": "node",
+          "parent": "1",
+          "label": "SimProces"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--11",
+          "type": "node",
+          "parent": "Xf0TkbQ_tWuAEyuKg0x--10",
+          "label": "state_list"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--12",
+          "type": "node",
+          "parent": "Xf0TkbQ_tWuAEyuKg0x--10",
+          "label": "Item 2"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--13",
+          "type": "node",
+          "parent": "Xf0TkbQ_tWuAEyuKg0x--10",
+          "label": "Item 3"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--14",
+          "type": "node",
+          "parent": "1",
+          "label": "StateList"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--16",
+          "type": "node",
+          "parent": "Xf0TkbQ_tWuAEyuKg0x--14",
+          "label": "states[]"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--18",
+          "type": "node",
+          "parent": "1",
+          "label": "add_state(state)"
+        },
+        {
+          "id": "Xf0TkbQ_tWuAEyuKg0x--19",
+          "type": "node",
+          "parent": "1",
+          "label": "remove_state(index)"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-6",
+          "type": "node",
+          "parent": "1",
+          "label": "Dodaj Akcję:\n- Stan\n- Typ:\n- Wyślij message\n- Zmień stan\n- Atrybut:\n\t*Dodaj\n         *Zmień\n        *Usuń",
+          "html": "Dodaj Akcję:<div>- Stan<br><div>- Typ:</div><div>- Wyślij message</div><div>- Zmień stan</div><div>- Atrybut:</div><div><span style=\"white-space: pre;\">\t</span>*Dodaj</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;*Zmień</div><div>&nbsp; &nbsp; &nbsp; &nbsp; *Usuń</div><div><br></div><div><br></div></div>"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-11",
+          "type": "edge",
+          "parent": "1",
+          "source": "TZ0PqiPO8Z1PhoJyS0BR-6",
+          "target": "6KT345YKYyeXrnY3jzX--7"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-12",
+          "type": "node",
+          "parent": "1",
+          "label": "Dodaj stan:\n- Co się ma wydarzyć przy wejściu w dany stan",
+          "html": "Dodaj stan:<br>- Co się ma wydarzyć przy wejściu w dany stan"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-13",
+          "type": "edge",
+          "parent": "1",
+          "source": "TZ0PqiPO8Z1PhoJyS0BR-12",
+          "target": "TZ0PqiPO8Z1PhoJyS0BR-5"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-14",
+          "type": "node",
+          "parent": "1",
+          "label": "Pralka (przykład)"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-15",
+          "type": "node",
+          "parent": "TZ0PqiPO8Z1PhoJyS0BR-14",
+          "label": "Stany:\nA\nB\nC",
+          "html": "Stany:<br>A<br><b>B</b><br>C"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-16",
+          "type": "node",
+          "parent": "TZ0PqiPO8Z1PhoJyS0BR-14",
+          "label": "ZaładujPralkeReq:"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-17",
+          "type": "node",
+          "parent": "TZ0PqiPO8Z1PhoJyS0BR-14",
+          "label": "&nbsp; message: ZaładujPralkeCfm(A)"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-32",
+          "type": "node",
+          "parent": "TZ0PqiPO8Z1PhoJyS0BR-14",
+          "label": "atrybut: int waga=10 (A)"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-29",
+          "type": "node",
+          "parent": "1",
+          "label": "&nbsp; &nbsp;message: ZaładujPralkeRej(B)"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-33",
+          "type": "edge",
+          "parent": "1",
+          "source": "TZ0PqiPO8Z1PhoJyS0BR-34",
+          "target": "TZ0PqiPO8Z1PhoJyS0BR-32"
+        },
+        {
+          "id": "TZ0PqiPO8Z1PhoJyS0BR-34",
+          "type": "node",
+          "parent": "1",
+          "label": "Można filtrować po stanie\ni nic się złego nie stanie",
+          "html": "Można filtrować po stanie<div>i nic się złego nie stanie</div>"
+        },
+        {
+          "id": "-fCgnPy93Pt9Dr_HReAn-1",
+          "type": "node",
+          "parent": "1",
+          "label": "Pralka2"
+        },
+        {
+          "id": "-fCgnPy93Pt9Dr_HReAn-2",
+          "type": "node",
+          "parent": "-fCgnPy93Pt9Dr_HReAn-1",
+          "label": "Stany:\nA\nB\nC",
+          "html": "Stany:<br>A<br><b>B</b><br>C"
+        },
+        {
+          "id": "-fCgnPy93Pt9Dr_HReAn-3",
+          "type": "node",
+          "parent": "-fCgnPy93Pt9Dr_HReAn-1",
+          "label": "ZaładujPralkeReq:"
+        },
+        {
+          "id": "-fCgnPy93Pt9Dr_HReAn-4",
+          "type": "node",
+          "parent": "-fCgnPy93Pt9Dr_HReAn-1",
+          "label": "&nbsp; message: ZaładujPralkeCfm(A)"
+        },
+        {
+          "id": "-fCgnPy93Pt9Dr_HReAn-5",
+          "type": "node",
+          "parent": "-fCgnPy93Pt9Dr_HReAn-1",
+          "label": "waga += m.wagaM (A)"
+        },
+        {
+          "id": "-fCgnPy93Pt9Dr_HReAn-6",
+          "type": "node",
+          "parent": "1",
+          "label": "&nbsp; &nbsp;message: ZaładujPralkeRej(B)"
+        },
+        {
+          "id": "-fCgnPy93Pt9Dr_HReAn-7",
+          "type": "node",
+          "parent": "1",
+          "label": "mapaStanA"
+        },
+        {
+          "id": "-fCgnPy93Pt9Dr_HReAn-8",
+          "type": "node",
+          "parent": "-fCgnPy93Pt9Dr_HReAn-7",
+          "label": "Klucz: załadujPralkeReq (String)"
+        },
+        {
+          "id": "-fCgnPy93Pt9Dr_HReAn-9",
+          "type": "node",
+          "parent": "-fCgnPy93Pt9Dr_HReAn-7",
+          "label": "Wartość: vector<Operacja*>(Funktor[x])\nx -> ilość pojedynczych operacji",
+          "html": "Wartość: vector&lt;Operacja*&gt;(Funktor[x])<div>x -&gt; ilość pojedynczych operacji</div>"
+        },
+        {
+          "id": "K3JtAVmbqUZBtR8qeoka-1",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "K3JtAVmbqUZBtR8qeoka-2",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "K3JtAVmbqUZBtR8qeoka-3",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "K3JtAVmbqUZBtR8qeoka-4",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "K3JtAVmbqUZBtR8qeoka-5",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "K3JtAVmbqUZBtR8qeoka-6",
+          "type": "node",
+          "parent": "1"
+        },
+        {
+          "id": "K3JtAVmbqUZBtR8qeoka-7",
+          "type": "node",
+          "parent": "1",
+          "label": "Andrzej"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-10",
+          "type": "edge",
+          "parent": "1",
+          "source": "BZh6_hl6Fm0YADOOg5kH-1",
+          "target": "BZh6_hl6Fm0YADOOg5kH-5"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-1",
+          "type": "node",
+          "parent": "1",
+          "label": "Grafika"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-2",
+          "type": "node",
+          "parent": "BZh6_hl6Fm0YADOOg5kH-1",
+          "label": "Inputy uzytkownika generują instrukcje input/ output"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-11",
+          "type": "edge",
+          "parent": "1",
+          "source": "BZh6_hl6Fm0YADOOg5kH-5",
+          "target": "BZh6_hl6Fm0YADOOg5kH-6"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-5",
+          "type": "node",
+          "parent": "1",
+          "label": "FASADA"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-6",
+          "type": "node",
+          "parent": "1",
+          "label": "ProgramSymulacja"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-7",
+          "type": "node",
+          "parent": "BZh6_hl6Fm0YADOOg5kH-6",
+          "label": "Dodawanie Usuwanie EDycja Danych"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-8",
+          "type": "node",
+          "parent": "BZh6_hl6Fm0YADOOg5kH-6",
+          "label": "Management runtimu/symulacji(start/stop/itd)"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-16",
+          "type": "node",
+          "parent": "1",
+          "label": "ZBIUR OBJEKTÓF WĄTKUF"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-17",
+          "type": "edge",
+          "parent": "1",
+          "source": "BZh6_hl6Fm0YADOOg5kH-16",
+          "target": "BZh6_hl6Fm0YADOOg5kH-6",
+          "label": "1"
+        },
+        {
+          "id": "BZh6_hl6Fm0YADOOg5kH-18",
+          "type": "node",
+          "parent": "1",
+          "label": "ZADANIA:\n\nPAPRYK WYMYŚLO INTERGEJS SYMULACJA - GRAFIKA/UZYTKOWNIK\n\nRYŚ: WYMYSLO LOGIKA SYMULACJI ORAS SBIUR OPERACJI ATOMOWYCH",
+          "html": "ZADANIA:<br><br>PAPRYK WYMYŚLO INTERGEJS SYMULACJA - GRAFIKA/UZYTKOWNIK<br><br>RYŚ: WYMYSLO LOGIKA SYMULACJI ORAS SBIUR OPERACJI ATOMOWYCH"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-1",
+          "type": "node",
+          "parent": "1",
+          "label": "ZaładujPralkeCfm"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-2",
+          "type": "node",
+          "parent": "5R7_GCBQ1uC85ukY3Vny-1",
+          "label": "Int: wagaM: 30"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-3",
+          "type": "node",
+          "parent": "5R7_GCBQ1uC85ukY3Vny-1",
+          "label": "string info \"Udało się\""
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-1",
+          "type": "node",
+          "parent": "1",
+          "label": "Odbiorca"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-2",
+          "type": "node",
+          "parent": "6qojKDNoq6iwC1_QTTSS-1",
+          "label": "Obiera uint8_t[] size:15"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-10",
+          "type": "edge",
+          "parent": "1",
+          "source": "6qojKDNoq6iwC1_QTTSS-5",
+          "target": "6qojKDNoq6iwC1_QTTSS-1"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-5",
+          "type": "node",
+          "parent": "1",
+          "label": "MsgDefinitionDB"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-6",
+          "type": "node",
+          "parent": "6qojKDNoq6iwC1_QTTSS-5",
+          "label": "getDefinition(MsgId) -&gt; MsgDefinition"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-11",
+          "type": "node",
+          "parent": "1",
+          "label": "MsgDupaReq(encoded)"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-7",
+          "type": "node",
+          "parent": "1",
+          "label": "11001010101"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-22",
+          "type": "edge",
+          "parent": "1",
+          "source": "6qojKDNoq6iwC1_QTTSS-12",
+          "target": "6qojKDNoq6iwC1_QTTSS-19"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-12",
+          "type": "node",
+          "parent": "1",
+          "label": "AtrybutDefinition"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-13",
+          "type": "node",
+          "parent": "6qojKDNoq6iwC1_QTTSS-12",
+          "label": "Type:Enum (int/ float bool string))"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-14",
+          "type": "node",
+          "parent": "6qojKDNoq6iwC1_QTTSS-12",
+          "label": "Size:int"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-15",
+          "type": "node",
+          "parent": "6qojKDNoq6iwC1_QTTSS-12",
+          "label": "indentyfikator:string"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-21",
+          "type": "edge",
+          "parent": "1",
+          "source": "6qojKDNoq6iwC1_QTTSS-16",
+          "target": "6qojKDNoq6iwC1_QTTSS-6"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-16",
+          "type": "node",
+          "parent": "1",
+          "label": "MsgDefinition"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-18",
+          "type": "node",
+          "parent": "6qojKDNoq6iwC1_QTTSS-16",
+          "label": "Name"
+        },
+        {
+          "id": "6qojKDNoq6iwC1_QTTSS-19",
+          "type": "node",
+          "parent": "6qojKDNoq6iwC1_QTTSS-16",
+          "label": "AtributeDefinition[]"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-8",
+          "type": "node",
+          "parent": "1",
+          "label": "int rozmiar = 10\nint waga = 6",
+          "html": "int rozmiar = 10<br><div>int waga = 6</div>"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-9",
+          "type": "node",
+          "parent": "1",
+          "label": "atrybut: int waga += m.wagaM (A)"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-10",
+          "type": "node",
+          "parent": "1",
+          "label": "if waga &gt; 30 (A)"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-11",
+          "type": "node",
+          "parent": "1",
+          "label": "atrybut: int waga -= m.wagaM (A)"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-12",
+          "type": "node",
+          "parent": "1",
+          "label": "Każda kloasa ma swoje wektorytypów podstawowych. Dodatkowo jest lookup table żeby było wiadoo w jakim miejscu w bicie sie znajduje"
+        },
+        {
+          "id": "5R7_GCBQ1uC85ukY3Vny-13",
+          "type": "node",
+          "parent": "1",
+          "label": "W przypadku operacji dostępu do elementu szukamy po nazwie na jakim jest miejscu i po tym dostajemy się do tego miejsca danych w wektorze"
+        },
+        {
+          "id": "votS2zKtsrjTJHkMnA4A-2",
+          "type": "node",
+          "parent": "1",
+          "label": "Lista rodzajów akcji"
+        },
+        {
+          "id": "votS2zKtsrjTJHkMnA4A-3",
+          "type": "node",
+          "parent": "votS2zKtsrjTJHkMnA4A-2",
+          "label": "Wyślij wiadomość"
+        },
+        {
+          "id": "votS2zKtsrjTJHkMnA4A-4",
+          "type": "node",
+          "parent": "votS2zKtsrjTJHkMnA4A-2",
+          "label": "Operacja Atrybutowa"
+        },
+        {
+          "id": "votS2zKtsrjTJHkMnA4A-5",
+          "type": "node",
+          "parent": "votS2zKtsrjTJHkMnA4A-2",
+          "label": "Zmień stan"
+        },
+        {
+          "id": "votS2zKtsrjTJHkMnA4A-18",
+          "type": "node",
+          "parent": "1",
+          "label": "Odpal timer"
+        },
+        {
+          "id": "votS2zKtsrjTJHkMnA4A-19",
+          "type": "node",
+          "parent": "1",
+          "label": "Odpal timer"
+        }
+      ]
+    }
+  ]
+}

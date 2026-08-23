@@ -1,0 +1,27 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "description": "MinGW dostepny z systemowej zmiennej PATH, bez sciezek zależnych od komputera",
+      "generator": "MinGW Makefiles",
+      "binaryDir": "${sourceDir}/build/debug-mingw",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "displayName": "Zbuduj Debug",
+      "configurePreset": "debug"
+    }
+  ]
+}

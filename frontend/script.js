@@ -17,6 +17,7 @@ const addState = document.querySelector('#addState');
 
 let running = false;
 let selectedState = document.querySelector('.state.active');
+let simulationSocket = null;
 
 function showToast(message) {
   toast.textContent = message;
@@ -56,11 +57,170 @@ function blockInteractionForInvalidObject(event) {
 document.addEventListener('pointerdown', blockInteractionForInvalidObject, true);
 document.addEventListener('click', blockInteractionForInvalidObject, true);
 
-runButton.addEventListener('click', () => {
-  running = !running;
+function typedAttributeValue(type, value) {
+  if (type === 'number') {
+    const number = Number(value);
+    return Number.isFinite(number) ? number : value;
+  }
+  if (type === 'boolean') return value === 'true' ? true : value === 'false' ? false : value;
+  return value;
+}
+
+function serializeAction(action) {
+  if (action.type === 'setAttribute') return { type: action.type, target: action.args[0], expression: action.args[1] };
+  if (action.type === 'sendMessage') return { type: action.type, message: action.args[0], values: action.args[1] || {} };
+  if (action.type === 'startTimer') return { type: action.type, timer: action.args[0] };
+  if (action.type === 'changeState') return { type: action.type, state: action.args[0] };
+  if (action.type === 'condition') {
+    return {
+      type: action.type,
+      expression: action.args[0],
+      ifTrue: (action.actions || []).map(serializeAction),
+      ifFalse: (action.elseActions || []).map(serializeAction)
+    };
+  }
+  return { type: action.type, arguments: action.args || [] };
+}
+
+function generateProjectSnapshot() {
+  const messages = [...document.querySelectorAll('#messagesList .message-row')].map((row) => ({
+    name: row.dataset.name,
+    attributes: (row.messageAttributes || []).map((attribute) => ({ ...attribute }))
+  }));
+  const objects = [...document.querySelectorAll('.object-tile')].map((tile) => {
+    const states = [...tile.querySelectorAll('.mini-state')].map((state) => ({
+      id: state.dataset.filterState,
+      name: stateButtonName(state)
+    }));
+    const attributes = [...tile.querySelectorAll('[data-kind="attribute"] .detail-row')].map((row) => ({
+      type: row.dataset.type,
+      name: row.dataset.name,
+      value: typedAttributeValue(row.dataset.type, row.dataset.value || '')
+    }));
+    const timers = [...tile.querySelectorAll('[data-kind="timer"] .detail-row')].map((row) => ({
+      type: row.dataset.type,
+      name: row.dataset.name,
+      duration: row.dataset.value || ''
+    }));
+    const triggers = [...tile.querySelectorAll('[data-trigger-state]')].map((trigger) => ({
+      type: trigger.dataset.triggerType,
+      name: trigger.dataset.triggerName,
+      state: trigger.dataset.triggerState,
+      actions: (trigger.actionItems || []).map(serializeAction)
+    }));
+    return {
+      id: tile.dataset.tileId,
+      name: tile.dataset.object,
+      currentState: tile.querySelector('.mini-state.selected')?.dataset.filterState || null,
+      attributes,
+      timers,
+      states,
+      triggers
+    };
+  });
+  return { schemaVersion: 1, generatedAt: new Date().toISOString(), messages, objects };
+}
+
+function applySimulationState(simulationState) {
+  (simulationState.objects || []).forEach((objectState) => {
+    const tile = [...document.querySelectorAll('.object-tile')]
+      .find((candidate) => candidate.dataset.tileId === objectState.id);
+    if (!tile || !objectState.currentState) return;
+    const state = [...tile.querySelectorAll('.mini-state')]
+      .find((candidate) => candidate.dataset.filterState === objectState.currentState);
+    if (state) selectMiniState(tile, state);
+  });
+}
+
+function closeSimulationSocket() {
+  const socket = simulationSocket;
+  simulationSocket = null;
+  if (!socket || socket.readyState > WebSocket.OPEN) return;
+  if (socket.readyState === WebSocket.OPEN) {
+    socket.send(JSON.stringify({ type: 'stop' }));
+    setTimeout(() => {
+      if (socket.readyState < WebSocket.CLOSING) socket.close();
+    }, 250);
+  } else {
+    socket.close();
+  }
+}
+
+function connectSimulation(snapshot) {
+  return new Promise((resolve, reject) => {
+    const socket = new WebSocket('ws://localhost:8080/ws');
+    simulationSocket = socket;
+    let ready = false;
+    socket.addEventListener('open', () => {
+      socket.send(JSON.stringify({ type: 'initialize', project: snapshot }));
+    });
+    socket.addEventListener('message', (event) => {
+      try {
+        const message = JSON.parse(event.data);
+        if (message.type === 'ready') {
+          ready = true;
+          resolve();
+        } else if (message.type === 'state' && running) {
+          applySimulationState(message);
+        } else if (message.type === 'error') {
+          throw new Error(message.message || 'Backend odrzucił projekt');
+        }
+      } catch (error) {
+        if (!ready) reject(error);
+        else {
+          console.error('Błędna wiadomość WebSocket:', error);
+          socket.close();
+        }
+      }
+    });
+    socket.addEventListener('error', () => {
+      if (!ready) reject(new Error('Nie można połączyć się z WebSocketem'));
+    });
+    socket.addEventListener('close', () => {
+      if (simulationSocket === socket) simulationSocket = null;
+      if (!ready) {
+        reject(new Error('Backend zamknął połączenie przed uruchomieniem'));
+        return;
+      }
+      if (running) {
+        running = false;
+        renderSimulationState();
+        showToast('Symulacja zatrzymana — utracono połączenie WebSocket');
+      }
+    });
+  });
+}
+
+function renderSimulationState() {
   runButton.textContent = running ? 'Ⅱ Zatrzymaj' : '▶ Uruchom';
   status.innerHTML = `<i></i> Symulacja ${running ? 'uruchomiona' : 'zatrzymana'}`;
   status.parentElement.classList.toggle('running', running);
+}
+
+runButton.addEventListener('click', async () => {
+  if (running) {
+    running = false;
+    closeSimulationSocket();
+    renderSimulationState();
+    return;
+  }
+
+  runButton.disabled = true;
+  try {
+    const snapshot = generateProjectSnapshot();
+    await connectSimulation(snapshot);
+    running = true;
+    renderSimulationState();
+    showToast(`WebSocket połączony: ${snapshot.objects.length} obiektów, ${snapshot.messages.length} wiadomości`);
+  } catch (error) {
+    running = false;
+    closeSimulationSocket();
+    renderSimulationState();
+    console.error('Nie udało się wysłać projektu:', error);
+    showToast('Nie uruchomiono — backend odrzucił projekt lub jest niedostępny');
+  } finally {
+    runButton.disabled = false;
+  }
 });
 
 function selectStateNode(state) {
@@ -252,6 +412,18 @@ function parseAction(text) {
   return { type: 'legacy', args: [text] };
 }
 
+function parseStoredActions(value) {
+  if (!value) return [];
+  if (value.trim().startsWith('[')) {
+    try { return JSON.parse(value); } catch { return []; }
+  }
+  return value.split('|').filter(Boolean).map(parseAction);
+}
+
+function storeTriggerActions(trigger) {
+  trigger.dataset.actions = JSON.stringify(trigger.actionItems || []);
+}
+
 function normalizeSetExpression(value) {
   if (value && typeof value === 'object') return value;
   return {
@@ -261,31 +433,205 @@ function normalizeSetExpression(value) {
   };
 }
 
+function setExpressionText(value) {
+  if (typeof value === 'string') return value;
+  const expression = normalizeSetExpression(value);
+  return expression.operator === 'assign'
+    ? operandText(expression.left)
+    : `${operandText(expression.left)} ${expression.operator} ${operandText(expression.right)}`;
+}
+
+function tokenizeExpression(source) {
+  const tokens = [];
+  let index = 0;
+  const isNameStart = (character) => /[\p{L}_]/u.test(character);
+  const isNamePart = (character) => /[\p{L}\p{N}_]/u.test(character);
+  while (index < source.length) {
+    const character = source[index];
+    if (/\s/u.test(character)) { index += 1; continue; }
+    const start = index;
+    const pair = source.slice(index, index + 2);
+    if (['==', '!=', '<=', '>=', '&&', '||'].includes(pair)) {
+      tokens.push({ kind: 'operator', value: pair, start, end: index + 2 });
+      index += 2;
+      continue;
+    }
+    if ('+-*/%<>()'.includes(character)) {
+      tokens.push({ kind: character === '(' || character === ')' ? 'paren' : 'operator', value: character, start, end: index + 1 });
+      index += 1;
+      continue;
+    }
+    if (character === '"' || character === "'") {
+      const quote = character;
+      index += 1;
+      let value = '';
+      let closed = false;
+      while (index < source.length) {
+        if (source[index] === '\\' && index + 1 < source.length) {
+          value += source[index + 1];
+          index += 2;
+        } else if (source[index] === quote) {
+          index += 1;
+          closed = true;
+          break;
+        } else {
+          value += source[index];
+          index += 1;
+        }
+      }
+      if (!closed) return { error: 'niezamknięty tekst w cudzysłowie' };
+      tokens.push({ kind: 'string', value, start, end: index });
+      continue;
+    }
+    if (/\d/u.test(character) || (character === '.' && /\d/u.test(source[index + 1] || ''))) {
+      const match = source.slice(index).match(/^(?:\d+(?:\.\d*)?|\.\d+)/u)[0];
+      index += match.length;
+      tokens.push({ kind: 'number', value: match, start, end: index });
+      continue;
+    }
+    if (isNameStart(character)) {
+      index += 1;
+      while (index < source.length && isNamePart(source[index])) index += 1;
+      const value = source.slice(start, index);
+      tokens.push({ kind: value === 'true' || value === 'false' ? 'boolean' : 'identifier', value, start, end: index });
+      continue;
+    }
+    return { error: `niedozwolony znak „${character}”` };
+  }
+  return { tokens };
+}
+
+function attributeDefinitions(tile) {
+  return [...tile.querySelectorAll('[data-kind="attribute"] .detail-row')].map((row) => ({
+    name: row.dataset.name,
+    type: row.dataset.type,
+    value: row.dataset.value || ''
+  }));
+}
+
+function checkSetExpression(source, tile, targetName = '') {
+  const tokenized = tokenizeExpression(source);
+  if (tokenized.error) return { error: tokenized.error };
+  const tokens = tokenized.tokens;
+  const attributes = attributeDefinitions(tile);
+  const attributeByName = (name) => attributes.find((attribute) => attribute.name.toLocaleLowerCase('pl') === name.toLocaleLowerCase('pl'));
+  const target = attributeByName(targetName);
+  if (target && !target.value.trim() && tokens.some((token) => (
+    token.kind === 'identifier' && token.value.toLocaleLowerCase('pl') === targetName.toLocaleLowerCase('pl')
+  ))) {
+    return { error: `nowy atrybut „${targetName}” nie ma jeszcze wartości i nie może być użyty we własnym wyrażeniu` };
+  }
+  let position = 0;
+  const current = () => tokens[position];
+  const take = () => tokens[position++];
+  const operation = (operator, left, right) => {
+    if (['*', '/', '%', '-'].includes(operator)) {
+      if (left !== 'number' || right !== 'number') return { error: `operator ${operator} wymaga liczb po obu stronach` };
+      return { type: 'number' };
+    }
+    if (operator === '+') {
+      if (left === 'number' && right === 'number') return { type: 'number' };
+      if (left === 'string' && right === 'string') return { type: 'string' };
+      return { error: `nie można dodać typu ${left} do ${right}` };
+    }
+    if (['<', '>', '<=', '>='].includes(operator)) {
+      if (left !== 'number' || right !== 'number') return { error: `operator ${operator} wymaga liczb po obu stronach` };
+      return { type: 'boolean' };
+    }
+    if (['==', '!='].includes(operator)) {
+      if (left !== right) return { error: `nie można porównać typu ${left} z ${right}` };
+      return { type: 'boolean' };
+    }
+    if (['&&', '||'].includes(operator)) {
+      if (left !== 'boolean' || right !== 'boolean') return { error: `operator ${operator} wymaga wartości boolean po obu stronach` };
+      return { type: 'boolean' };
+    }
+    return { error: `nieznany operator ${operator}` };
+  };
+  function primary() {
+    const token = take();
+    if (!token) return { error: 'brakuje wartości' };
+    if (token.kind === 'number' || token.kind === 'string' || token.kind === 'boolean') return { type: token.kind };
+    if (token.kind === 'identifier') {
+      const attribute = attributeByName(token.value);
+      return attribute ? { type: attribute.type } : { error: `nieznany atrybut „${token.value}”` };
+    }
+    if (token.value === '(') {
+      const result = logicalOr();
+      if (result.error) return result;
+      if (current()?.value !== ')') return { error: 'brakuje zamykającego nawiasu' };
+      take();
+      return result;
+    }
+    if (token.value === '-') {
+      const result = primary();
+      if (result.error) return result;
+      return result.type === 'number' ? result : { error: 'minus przed wartością wymaga liczby' };
+    }
+    return { error: `nieoczekiwany element „${token.value}”` };
+  }
+  function binary(next, operators) {
+    let left = next();
+    while (!left.error && operators.includes(current()?.value)) {
+      const operator = take().value;
+      const right = next();
+      if (right.error) return right;
+      left = operation(operator, left.type, right.type);
+    }
+    return left;
+  }
+  const multiply = () => binary(primary, ['*', '/', '%']);
+  const add = () => binary(multiply, ['+', '-']);
+  const compare = () => binary(add, ['<', '>', '<=', '>=']);
+  const equality = () => binary(compare, ['==', '!=']);
+  const logicalAnd = () => binary(equality, ['&&']);
+  function logicalOr() { return binary(logicalAnd, ['||']); }
+  if (!tokens.length) return { error: 'wyrażenie nie może być puste' };
+  const result = logicalOr();
+  if (result.error) return result;
+  if (position < tokens.length) return { error: `nieoczekiwany element „${current().value}”` };
+  if (!targetName) return result;
+  if (!target) return { error: 'wybierz istniejący atrybut docelowy' };
+  if (result.type !== target.type) return { error: `wynik ma typ ${result.type}, a atrybut „${target.name}” ma typ ${target.type}` };
+  return { type: result.type };
+}
+
+function expressionAttributeNames(source) {
+  const tokenized = tokenizeExpression(setExpressionText(source));
+  return tokenized.tokens?.filter((token) => token.kind === 'identifier').map((token) => token.value) || [];
+}
+
+function renameExpressionAttribute(source, oldName, newName) {
+  const text = setExpressionText(source);
+  const tokenized = tokenizeExpression(text);
+  if (!tokenized.tokens) return text;
+  let result = text;
+  [...tokenized.tokens].reverse().forEach((token) => {
+    if (token.kind === 'identifier' && token.value.toLocaleLowerCase('pl') === oldName.toLocaleLowerCase('pl')) {
+      result = `${result.slice(0, token.start)}${newName}${result.slice(token.end)}`;
+    }
+  });
+  return result;
+}
+
 function operandText(operand) {
-  return operand.kind === 'attribute' ? `@${operand.value}` : operand.value;
+  return operand.value;
 }
 
 function actionText(action) {
   if (action.type === 'setAttribute') {
-    const expression = normalizeSetExpression(action.args[1]);
-    const value = expression.operator === 'assign'
-      ? operandText(expression.left)
-      : `${operandText(expression.left)} ${expression.operator} ${operandText(expression.right)}`;
-    return `set attribute: ${action.args[0]} = ${value}`;
+    return `set attribute: ${action.args[0]} = ${setExpressionText(action.args[1])}`;
   }
   if (action.type === 'sendMessage') return `send message: ${action.args[0]}`;
   if (action.type === 'startTimer') return `start timer: ${action.args[0]}`;
   if (action.type === 'changeState') return `change state: ${action.args[0]}`;
+  if (action.type === 'condition') return `if: ${action.args[0]}`;
   return action.args[0];
 }
 
 function actionArgumentsText(action, trigger) {
   if (action.type === 'setAttribute') {
-    const expression = normalizeSetExpression(action.args[1]);
-    const value = expression.operator === 'assign'
-      ? operandText(expression.left)
-      : `${operandText(expression.left)} ${expression.operator} ${operandText(expression.right)}`;
-    return `${action.args[0]} = ${value}`;
+    return `${action.args[0]} = ${setExpressionText(action.args[1])}`;
   }
   if (action.type === 'sendMessage') {
     const values = action.args[1] || {};
@@ -300,6 +646,7 @@ function actionArgumentsText(action, trigger) {
       ));
     return state ? stateButtonName(state) : action.args[0];
   }
+  if (action.type === 'condition') return action.args[0];
   return action.args[0];
 }
 
@@ -308,6 +655,7 @@ function actionTypeIcon(action) {
   if (action.type === 'sendMessage') return '✉';
   if (action.type === 'startTimer') return '◷';
   if (action.type === 'changeState') return '→';
+  if (action.type === 'condition') return '?';
   return '•';
 }
 
@@ -315,6 +663,209 @@ function detailNames(tile, kind) {
   return [...tile.querySelectorAll(`[data-kind="${kind}"] .detail-row`)]
     .map((row) => row.dataset.name?.trim())
     .filter(Boolean);
+}
+
+function addMessageDefinition(name) {
+  const existing = messageNames().find((message) => message.toLocaleLowerCase('pl') === name.toLocaleLowerCase('pl'));
+  if (existing) return existing;
+  const row = document.createElement('div');
+  row.className = 'message-row';
+  row.dataset.name = name;
+  row.messageAttributes = [];
+  renderMessageRow(row);
+  document.querySelector('#messagesList').append(row);
+  return name;
+}
+
+function addAttributeDefinition(tile, name, type = 'string') {
+  const existing = detailNames(tile, 'attribute').find((attribute) => attribute.toLocaleLowerCase('pl') === name.toLocaleLowerCase('pl'));
+  if (existing) return existing;
+  const section = tile.querySelector('[data-kind="attribute"]');
+  const list = section.querySelector('.details-list');
+  list.querySelector('.empty-details')?.remove();
+  list.append(createDetailRow('attribute', [type, name, '']));
+  updateAttributeCount(tile);
+  return name;
+}
+
+function enableQuickAdd(select, kind, tile = null) {
+  const sentinel = `__add_${kind}__`;
+  if (!select.querySelector(`option[value="${sentinel}"]`)) {
+    select.add(new Option(kind === 'message' ? '+ Dodaj wiadomość' : '+ Dodaj atrybut', sentinel));
+  }
+  if (select.dataset.quickAddBound) return;
+  select.dataset.quickAddBound = 'true';
+  select.addEventListener('change', (event) => {
+    if (select.value !== sentinel) return;
+    event.stopImmediatePropagation();
+    select.disabled = true;
+    const editor = document.createElement('span');
+    editor.className = 'quick-add-editor';
+    const typeInput = kind === 'attribute' ? document.createElement('select') : null;
+    if (typeInput) {
+      typeInput.className = 'quick-add-type';
+      typeInput.setAttribute('aria-label', 'Typ nowego atrybutu');
+      typeInput.add(new Option('string', 'string'));
+      typeInput.add(new Option('number', 'number'));
+      typeInput.add(new Option('boolean', 'boolean'));
+      editor.append(typeInput);
+    }
+    const input = document.createElement('input');
+    input.className = 'quick-add-input';
+    input.placeholder = kind === 'message' ? 'Nazwa wiadomości' : 'Nazwa atrybutu';
+    editor.append(input);
+    select.after(editor);
+    let finished = false;
+
+    function cancelQuickAdd() {
+      if (finished) return false;
+      finished = true;
+      editor.remove();
+      select.disabled = false;
+      select.value = '';
+      select.focus();
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    }
+
+    function finish() {
+      if (finished) return true;
+      const name = input.value.trim();
+      if (!name) {
+        input.classList.add('invalid');
+        showToast('Nazwa nie może być pusta');
+        input.focus();
+        return false;
+      }
+      finished = true;
+      const addedName = kind === 'message' ? addMessageDefinition(name) : addAttributeDefinition(tile, name, typeInput.value);
+      const normalOption = [...select.options].find((item) => item.value.toLocaleLowerCase('pl') === addedName.toLocaleLowerCase('pl'));
+      if (normalOption) normalOption.value = addedName;
+      else select.add(new Option(addedName, addedName), select.querySelector(`option[value="${sentinel}"]`));
+      select.value = addedName;
+      editor.remove();
+      select.disabled = false;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      showToast(`Dodano ${kind === 'message' ? 'wiadomość' : 'atrybut'}: ${addedName}`);
+      return true;
+    }
+
+    editor.commitQuickAdd = finish;
+
+    input.addEventListener('keydown', (keyEvent) => {
+      if (keyEvent.key === 'Enter') {
+        keyEvent.preventDefault();
+        finish();
+      }
+      if (keyEvent.key === 'Escape') {
+        keyEvent.preventDefault();
+        cancelQuickAdd();
+      }
+    });
+    requestAnimationFrame(() => input.focus());
+  });
+}
+
+function commitPendingQuickAdd(container) {
+  const pendingEditor = container.querySelector('.quick-add-editor');
+  return !pendingEditor || pendingEditor.commitQuickAdd();
+}
+
+function actionsAtPath(trigger, parentPath = '') {
+  let actions = trigger.actionItems;
+  if (!parentPath) return actions;
+  parentPath.split('.').forEach((segment) => {
+    const [indexText, branch = 'true'] = segment.split(':');
+    const index = Number(indexText);
+    const parent = actions[index];
+    if (branch === 'false') {
+      parent.elseActions ||= [];
+      actions = parent.elseActions;
+    } else {
+      parent.actions ||= [];
+      actions = parent.actions;
+    }
+  });
+  return actions;
+}
+
+function forEachAction(actions, callback) {
+  (actions || []).forEach((action) => {
+    callback(action);
+    forEachAction(action.actions, callback);
+    forEachAction(action.elseActions, callback);
+  });
+}
+
+function someAction(actions, callback) {
+  return (actions || []).some((action) => (
+    callback(action) || someAction(action.actions, callback) || someAction(action.elseActions, callback)
+  ));
+}
+
+function openActionPath(trigger, parentPath) {
+  if (!parentPath) return;
+  const parts = parentPath.split('.');
+  parts.forEach((_, index) => {
+    const pathParts = parts.slice(0, index + 1);
+    pathParts[pathParts.length - 1] = pathParts[pathParts.length - 1].replace(':false', '');
+    const path = pathParts.join('.');
+    [...trigger.querySelectorAll('.conditional-action')]
+      .find((branch) => branch.dataset.actionPath === path)?.setAttribute('open', '');
+  });
+}
+
+function renderActionRows(actions, container, trigger, parentPath = '') {
+  actions.forEach((action, index) => {
+    const path = parentPath ? `${parentPath}.${index}` : String(index);
+    if (action.type === 'condition') {
+      action.actions ||= [];
+      action.elseActions ||= [];
+      const branch = document.createElement('details');
+      branch.className = 'conditional-action';
+      branch.dataset.actionPath = path;
+      const summary = document.createElement('summary');
+      summary.className = 'trigger-action';
+      summary.innerHTML = `<i>${index + 1}.</i><span class="action-type-icon condition" title="condition" aria-label="condition">?</span><span class="condition-expression"></span><span class="action-controls"><button class="action-control edit-trigger-action" type="button" title="Edytuj warunek">✎</button><button class="action-control delete-trigger-action" type="button" title="Usuń warunek">×</button></span>`;
+      summary.querySelector('.condition-expression').textContent = action.args[0];
+      const children = document.createElement('div');
+      children.className = 'conditional-actions';
+      children.dataset.parentPath = path;
+      const head = document.createElement('div');
+      head.className = 'conditional-actions-head';
+      head.innerHTML = '<span>JEŚLI PRAWDA</span><button class="add-trigger-action" type="button">+ Dodaj</button>';
+      children.append(head);
+      renderActionRows(action.actions, children, trigger, path);
+      const elseChildren = document.createElement('div');
+      elseChildren.className = 'conditional-actions conditional-actions-false';
+      elseChildren.dataset.parentPath = `${path}:false`;
+      const elseHead = document.createElement('div');
+      elseHead.className = 'conditional-actions-head';
+      elseHead.innerHTML = '<span>JEŚLI FAŁSZ</span><button class="add-trigger-action" type="button">+ Dodaj</button>';
+      elseChildren.append(elseHead);
+      renderActionRows(action.elseActions, elseChildren, trigger, `${path}:false`);
+      branch.append(summary, children, elseChildren);
+      container.append(branch);
+      return;
+    }
+    const row = document.createElement('div');
+    row.className = 'trigger-action';
+    row.dataset.actionPath = path;
+    const number = document.createElement('i');
+    number.textContent = `${index + 1}.`;
+    const typeIcon = document.createElement('span');
+    typeIcon.className = `action-type-icon ${action.type}`;
+    typeIcon.textContent = actionTypeIcon(action);
+    typeIcon.title = action.type;
+    typeIcon.setAttribute('aria-label', action.type);
+    const text = document.createElement('span');
+    text.textContent = actionArgumentsText(action, trigger);
+    const controls = document.createElement('span');
+    controls.className = 'action-controls';
+    controls.innerHTML = '<button class="action-control edit-trigger-action" type="button" title="Edytuj akcję">✎</button><button class="action-control delete-trigger-action" type="button" title="Usuń akcję">×</button>';
+    row.append(number, typeIcon, text, controls);
+    container.append(row);
+  });
 }
 
 function renderTrigger(trigger) {
@@ -343,7 +894,7 @@ function renderTrigger(trigger) {
     }
   }
   if (!trigger.actionItems) {
-    trigger.actionItems = (trigger.dataset.actions || '').split('|').filter(Boolean).map(parseAction);
+    trigger.actionItems = parseStoredActions(trigger.dataset.actions || '');
   }
   const actions = trigger.actionItems;
   const details = document.createElement('details');
@@ -368,25 +919,7 @@ function renderTrigger(trigger) {
   actionHead.innerHTML = '<span>AKCJE</span><button class="add-trigger-action" type="button">+ Dodaj</button>';
   actionList.append(actionHead);
 
-  actions.forEach((action, index) => {
-    const row = document.createElement('div');
-    row.className = 'trigger-action';
-    row.dataset.actionIndex = index;
-    const number = document.createElement('i');
-    number.textContent = `${index + 1}.`;
-    const typeIcon = document.createElement('span');
-    typeIcon.className = `action-type-icon ${action.type}`;
-    typeIcon.textContent = actionTypeIcon(action);
-    typeIcon.title = action.type;
-    typeIcon.setAttribute('aria-label', action.type);
-    const text = document.createElement('span');
-    text.textContent = actionArgumentsText(action, trigger);
-    const controls = document.createElement('span');
-    controls.className = 'action-controls';
-    controls.innerHTML = '<button class="action-control edit-trigger-action" type="button" title="Edytuj akcję">✎</button><button class="action-control delete-trigger-action" type="button" title="Usuń akcję">×</button>';
-    row.append(number, typeIcon, text, controls);
-    actionList.append(row);
-  });
+  renderActionRows(actions, actionList, trigger);
 
   details.append(summary, actionList);
   trigger.replaceChildren(details);
@@ -870,6 +1403,7 @@ function beginTriggerEdit(tile, trigger = null) {
       const messages = messageNames();
       messageInput.replaceChildren(new Option(messages.length ? 'Wybierz wiadomość' : 'Brak wiadomości', ''));
       messages.forEach((message) => messageInput.add(new Option(message, message)));
+      enableQuickAdd(messageInput, 'message');
       messageInput.value = messages.find((message) => message.toLocaleLowerCase('pl') === desiredMessage.toLocaleLowerCase('pl')) || '';
     }
     if (typeInput.value === 'timer') {
@@ -929,6 +1463,7 @@ function beginTriggerEdit(tile, trigger = null) {
   });
   stateInput.addEventListener('change', () => validate(false));
   editor.querySelector('.save-trigger').addEventListener('click', () => {
+    if (!commitPendingQuickAdd(editor)) return;
     if (!validate()) {
       (typeInput.value === 'onStart' ? typeInput : currentNameControl()).focus();
       return;
@@ -989,13 +1524,18 @@ document.addEventListener('click', (event) => {
   }
 });
 
-function beginActionEdit(trigger, actionIndex = null) {
+function beginActionEdit(trigger, actionIndex = null, parentPath = '') {
   if (!requestEditAccess()) return;
-  const actionList = trigger.querySelector('.trigger-actions');
+  const actionList = parentPath
+    ? [...trigger.querySelectorAll('.conditional-actions')].find((list) => list.dataset.parentPath === parentPath)
+    : trigger.querySelector('.trigger-actions');
   if (!actionList || actionList.querySelector('.action-editor')) return;
+  const actions = actionsAtPath(trigger, parentPath);
   const isNew = actionIndex === null;
-  const original = isNew ? { type: 'setAttribute', args: ['', ''] } : trigger.actionItems[actionIndex];
-  const oldRow = isNew ? null : actionList.querySelector(`[data-action-index="${actionIndex}"]`);
+  const original = isNew ? { type: 'setAttribute', args: ['', ''] } : actions[actionIndex];
+  const actionPath = parentPath ? `${parentPath}.${actionIndex}` : String(actionIndex);
+  const oldRow = isNew ? null : [...actionList.querySelectorAll(':scope > .trigger-action, :scope > .conditional-action')]
+    .find((row) => row.dataset.actionPath === actionPath);
   oldRow?.classList.add('hidden');
   const editor = document.createElement('div');
   editor.className = 'action-editor';
@@ -1005,6 +1545,7 @@ function beginActionEdit(trigger, actionIndex = null) {
       <option value="sendMessage">send message</option>
       <option value="startTimer">start timer</option>
       <option value="changeState">changeState</option>
+      <option value="condition">warunek</option>
     </select>
     <div class="action-arguments"></div>
     <div class="action-editor-buttons"><button class="cancel-trigger-action" type="button">Anuluj</button><button class="save-trigger-action" type="button">Zapisz</button></div>`;
@@ -1014,6 +1555,17 @@ function beginActionEdit(trigger, actionIndex = null) {
 
   function renderArguments(values = []) {
     argumentsBox.replaceChildren();
+    if (typeInput.value === 'condition') {
+      argumentsBox.classList.add('single');
+      const expression = document.createElement('input');
+      expression.className = 'action-argument condition-input';
+      expression.setAttribute('aria-label', 'Wyrażenie warunkowe');
+      expression.placeholder = 'np. waga > 4 && aktywna';
+      expression.value = values[0] || '';
+      expression.addEventListener('input', () => validate(false));
+      argumentsBox.append(expression);
+      return;
+    }
     if (typeInput.value === 'setAttribute') {
       argumentsBox.classList.add('single');
       const attributes = detailNames(trigger.closest('.object-tile'), 'attribute');
@@ -1022,60 +1574,17 @@ function beginActionEdit(trigger, actionIndex = null) {
       target.setAttribute('aria-label', 'Atrybut docelowy');
       target.add(new Option(attributes.length ? 'Wybierz atrybut docelowy' : 'Brak atrybutów', ''));
       attributes.forEach((attribute) => target.add(new Option(attribute, attribute)));
+      enableQuickAdd(target, 'attribute', trigger.closest('.object-tile'));
       target.value = attributes.find((attribute) => attribute.toLocaleLowerCase('pl') === (values[0] || '').toLocaleLowerCase('pl')) || '';
       argumentsBox.append(target);
-      const expression = normalizeSetExpression(values[1]);
-      const expressionRow = document.createElement('div');
-      expressionRow.className = 'set-attribute-expression';
-
-      function createOperand(side, operand) {
-        const box = document.createElement('div');
-        box.className = `set-operand set-operand-${side}`;
-        const kind = document.createElement('select');
-        kind.className = 'operand-kind';
-        kind.innerHTML = '<option value="literal">literał</option><option value="attribute">atrybut</option>';
-        kind.value = operand.kind;
-        const valueHost = document.createElement('span');
-
-        function renderValue(currentValue = '') {
-          valueHost.replaceChildren();
-          const value = kind.value === 'attribute' ? document.createElement('select') : document.createElement('input');
-          value.className = 'action-argument operand-value';
-          value.setAttribute('aria-label', `${side === 'left' ? 'Lewy' : 'Prawy'} operand`);
-          if (kind.value === 'attribute') {
-            value.add(new Option(attributes.length ? 'Wybierz atrybut' : 'Brak atrybutów', ''));
-            attributes.forEach((attribute) => value.add(new Option(attribute, attribute)));
-            value.value = attributes.find((attribute) => attribute.toLocaleLowerCase('pl') === currentValue.toLocaleLowerCase('pl')) || '';
-          } else {
-            value.placeholder = 'Literał';
-            value.value = currentValue;
-          }
-          value.addEventListener('input', () => validate(false));
-          value.addEventListener('change', () => validate(false));
-          valueHost.append(value);
-        }
-
-        kind.addEventListener('change', () => renderValue());
-        renderValue(operand.value);
-        box.append(kind, valueHost);
-        return box;
-      }
-
-      const left = createOperand('left', expression.left);
-      const operator = document.createElement('select');
-      operator.className = 'set-operator';
-      operator.setAttribute('aria-label', 'Operator');
-      [['assign', '='], ['+', '+'], ['-', '−'], ['*', '×'], ['/', '÷'], ['%', '%'], ['==', '=='], ['!=', '!='], ['>', '>'], ['<', '<'], ['>=', '>='], ['<=', '<='], ['&&', 'AND'], ['||', 'OR']]
-        .forEach(([value, label]) => operator.add(new Option(label, value)));
-      operator.value = expression.operator;
-      const right = createOperand('right', expression.right);
-      function updateRightVisibility() {
-        right.classList.toggle('hidden', operator.value === 'assign');
-      }
-      operator.addEventListener('change', updateRightVisibility);
-      updateRightVisibility();
-      expressionRow.append(left, operator, right);
-      argumentsBox.append(expressionRow);
+      const expressionInput = document.createElement('input');
+      expressionInput.className = 'action-argument set-expression-input';
+      expressionInput.setAttribute('aria-label', 'Wyrażenie przypisywane do atrybutu');
+      expressionInput.placeholder = 'np. waga + 4 albo aktywna && gotowa';
+      expressionInput.value = setExpressionText(values[1]);
+      expressionInput.addEventListener('input', () => validate(false));
+      target.addEventListener('change', () => validate(false));
+      argumentsBox.append(expressionInput);
       return;
     }
     if (typeInput.value === 'sendMessage') {
@@ -1086,6 +1595,7 @@ function beginActionEdit(trigger, actionIndex = null) {
       messageSelect.setAttribute('aria-label', 'Wiadomość');
       messageSelect.add(new Option(messages.length ? 'Wybierz wiadomość' : 'Brak wiadomości', ''));
       messages.forEach((message) => messageSelect.add(new Option(message, message)));
+      enableQuickAdd(messageSelect, 'message');
       messageSelect.value = messages.find((message) => message.toLocaleLowerCase('pl') === (values[0] || '').toLocaleLowerCase('pl')) || '';
       argumentsBox.append(messageSelect);
       const attributeValues = values[1] || {};
@@ -1149,32 +1659,46 @@ function beginActionEdit(trigger, actionIndex = null) {
       if (showMessage) showToast(empty.dataset.validationError);
       return false;
     }
+    if (typeInput.value === 'setAttribute') {
+      const target = argumentsBox.querySelector('.set-attribute-target');
+      const expression = argumentsBox.querySelector('.set-expression-input');
+      const result = checkSetExpression(expression.value.trim(), trigger.closest('.object-tile'), target.value);
+      expression.classList.toggle('invalid', Boolean(result.error));
+      expression.toggleAttribute('aria-invalid', Boolean(result.error));
+      expression.dataset.validationError = result.error ? `Błędne wyrażenie: ${result.error}` : '';
+      if (result.error) {
+        if (showMessage) showToast(expression.dataset.validationError);
+        return false;
+      }
+    }
+    if (typeInput.value === 'condition') {
+      const expression = argumentsBox.querySelector('.condition-input');
+      const result = checkSetExpression(expression.value.trim(), trigger.closest('.object-tile'));
+      const error = result.error || (result.type !== 'boolean' ? `warunek musi zwracać boolean, a zwraca ${result.type}` : '');
+      expression.classList.toggle('invalid', Boolean(error));
+      expression.toggleAttribute('aria-invalid', Boolean(error));
+      expression.dataset.validationError = error ? `Błędny warunek: ${error}` : '';
+      if (error) {
+        if (showMessage) showToast(expression.dataset.validationError);
+        return false;
+      }
+    }
     return true;
   }
 
   renderArguments(original.type === 'legacy' ? [original.args[0], ''] : original.args);
   typeInput.addEventListener('change', () => renderArguments());
   editor.querySelector('.save-trigger-action').addEventListener('click', () => {
+    if (!commitPendingQuickAdd(editor)) return;
     if (!validate()) {
       argumentsBox.querySelector('.invalid')?.focus();
       return;
     }
     let args;
     if (typeInput.value === 'setAttribute') {
-      const operand = (side) => {
-        const box = argumentsBox.querySelector(`.set-operand-${side}`);
-        return {
-          kind: box.querySelector('.operand-kind').value,
-          value: box.querySelector('.operand-value').value.trim()
-        };
-      };
       args = [
         argumentsBox.querySelector('.set-attribute-target').value,
-        {
-          left: operand('left'),
-          operator: argumentsBox.querySelector('.set-operator').value,
-          right: operand('right')
-        }
+        argumentsBox.querySelector('.set-expression-input').value.trim()
       ];
     } else if (typeInput.value === 'sendMessage') {
       const values = {};
@@ -1186,11 +1710,17 @@ function beginActionEdit(trigger, actionIndex = null) {
       args = [...argumentsBox.querySelectorAll('.action-argument')].map((input) => input.value.trim());
     }
     const action = { type: typeInput.value, args };
-    if (isNew) trigger.actionItems.push(action);
-    else trigger.actionItems[actionIndex] = action;
-    trigger.dataset.actions = trigger.actionItems.map(actionText).join('|');
+    if (typeInput.value === 'condition') {
+      action.args = [argumentsBox.querySelector('.condition-input').value.trim()];
+      action.actions = original.type === 'condition' ? (original.actions || []) : [];
+      action.elseActions = original.type === 'condition' ? (original.elseActions || []) : [];
+    }
+    if (isNew) actions.push(action);
+    else actions[actionIndex] = action;
+    storeTriggerActions(trigger);
     renderTrigger(trigger);
     trigger.querySelector('.trigger-details').open = true;
+    openActionPath(trigger, parentPath);
     showToast(`${isNew ? 'Dodano' : 'Zmieniono'} akcję`);
   });
   editor.querySelector('.cancel-trigger-action').addEventListener('click', () => {
@@ -1204,24 +1734,34 @@ function beginActionEdit(trigger, actionIndex = null) {
 document.addEventListener('click', (event) => {
   const add = event.target.closest('.add-trigger-action');
   if (add) {
-    beginActionEdit(add.closest('[data-trigger-state]'));
+    const parentPath = add.closest('.conditional-actions')?.dataset.parentPath || '';
+    beginActionEdit(add.closest('[data-trigger-state]'), null, parentPath);
     return;
   }
   const edit = event.target.closest('.edit-trigger-action');
   if (edit) {
-    const row = edit.closest('.trigger-action');
-    beginActionEdit(edit.closest('[data-trigger-state]'), Number(row.dataset.actionIndex));
+    event.preventDefault();
+    event.stopPropagation();
+    const row = edit.closest('[data-action-path]');
+    const path = row.dataset.actionPath.split('.');
+    const index = Number(path.pop());
+    beginActionEdit(edit.closest('[data-trigger-state]'), index, path.join('.'));
     return;
   }
   const remove = event.target.closest('.delete-trigger-action');
   if (remove) {
+    event.preventDefault();
+    event.stopPropagation();
     const trigger = remove.closest('[data-trigger-state]');
-    const index = Number(remove.closest('.trigger-action').dataset.actionIndex);
+    const path = remove.closest('[data-action-path]').dataset.actionPath.split('.');
+    const index = Number(path.pop());
+    const actions = actionsAtPath(trigger, path.join('.'));
     if (!window.confirm('Usunąć tę akcję?')) return;
-    trigger.actionItems.splice(index, 1);
-    trigger.dataset.actions = trigger.actionItems.map(actionText).join('|');
+    actions.splice(index, 1);
+    storeTriggerActions(trigger);
     renderTrigger(trigger);
     trigger.querySelector('.trigger-details').open = true;
+    openActionPath(trigger, path.join('.'));
     showToast('Usunięto akcję');
   }
 });
@@ -1328,16 +1868,15 @@ function beginDetailEdit(section, row = null) {
     if (!isNew && oldData.name !== row.dataset.name) {
       const tile = section.closest('.object-tile');
       tile.querySelectorAll('[data-trigger-state]').forEach((trigger) => {
-        trigger.actionItems?.forEach((action) => {
+        forEachAction(trigger.actionItems, (action) => {
           if ((kind === 'attribute' && action.type === 'setAttribute') || (kind === 'timer' && action.type === 'startTimer')) {
             if (action.args[0] === oldData.name) action.args[0] = row.dataset.name;
           }
           if (kind === 'attribute' && action.type === 'setAttribute') {
-            const expression = normalizeSetExpression(action.args[1]);
-            [expression.left, expression.right].forEach((operand) => {
-              if (operand.kind === 'attribute' && operand.value === oldData.name) operand.value = row.dataset.name;
-            });
-            action.args[1] = expression;
+            action.args[1] = renameExpressionAttribute(action.args[1], oldData.name, row.dataset.name);
+          }
+          if (kind === 'attribute' && action.type === 'condition') {
+            action.args[0] = renameExpressionAttribute(action.args[0], oldData.name, row.dataset.name);
           }
         });
         if (kind === 'timer' && trigger.dataset.triggerType === 'timer' && trigger.dataset.triggerName === oldData.name) {
@@ -1388,19 +1927,12 @@ function synchronizeReferences(tile) {
         timer.toLocaleLowerCase('pl') === (trigger.dataset.triggerName || '').toLocaleLowerCase('pl')
       )) || timers[0];
     }
-    trigger.actionItems?.forEach((action) => {
+    forEachAction(trigger.actionItems, (action) => {
       if (action.type === 'setAttribute' && attributes.length) {
         action.args[0] = attributes.find((attribute) => (
           attribute.toLocaleLowerCase('pl') === (action.args[0] || '').toLocaleLowerCase('pl')
         )) || attributes[0];
-        const expression = normalizeSetExpression(action.args[1]);
-        [expression.left, expression.right].forEach((operand) => {
-          if (operand.kind !== 'attribute') return;
-          operand.value = attributes.find((attribute) => (
-            attribute.toLocaleLowerCase('pl') === (operand.value || '').toLocaleLowerCase('pl')
-          )) || attributes[0];
-        });
-        action.args[1] = expression;
+        action.args[1] = setExpressionText(action.args[1]);
       }
       if (action.type === 'startTimer' && timers.length) {
         action.args[0] = timers.find((timer) => (
@@ -1408,7 +1940,7 @@ function synchronizeReferences(tile) {
         )) || timers[0];
       }
     });
-    trigger.dataset.actions = trigger.actionItems?.map(actionText).join('|') || trigger.dataset.actions;
+    storeTriggerActions(trigger);
     renderTrigger(trigger);
   });
 }
@@ -1464,12 +1996,11 @@ document.addEventListener('click', (event) => {
     if (isAttribute) {
       const attributeName = row.dataset.name;
       const usedByAction = [...tile.querySelectorAll('[data-trigger-state]')]
-        .some((trigger) => trigger.actionItems?.some((action) => {
-          if (action.type !== 'setAttribute') return false;
-          const expression = normalizeSetExpression(action.args[1]);
-          return action.args[0] === attributeName
-            || [expression.left, expression.right].some((operand) => operand.kind === 'attribute' && operand.value === attributeName);
-        }));
+        .some((trigger) => someAction(trigger.actionItems, (action) => (
+          (action.type === 'setAttribute' && (action.args[0] === attributeName
+            || expressionAttributeNames(action.args[1]).some((name) => name.toLocaleLowerCase('pl') === attributeName.toLocaleLowerCase('pl'))))
+          || (action.type === 'condition' && expressionAttributeNames(action.args[0]).some((name) => name.toLocaleLowerCase('pl') === attributeName.toLocaleLowerCase('pl')))
+        )));
       if (usedByAction) {
         showToast('Nie można usunąć atrybutu, który jest używany');
         return;
@@ -1479,7 +2010,7 @@ document.addEventListener('click', (event) => {
       const usedByTrigger = [...tile.querySelectorAll('[data-trigger-type="timer"]')]
         .some((trigger) => trigger.dataset.triggerName === timerName);
       const usedByAction = [...tile.querySelectorAll('[data-trigger-state]')]
-        .some((trigger) => trigger.actionItems?.some((action) => action.type === 'startTimer' && action.args[0] === timerName));
+        .some((trigger) => someAction(trigger.actionItems, (action) => action.type === 'startTimer' && action.args[0] === timerName));
       if (usedByTrigger || usedByAction) {
         showToast('Nie można usunąć timera, który jest używany');
         return;
@@ -1546,7 +2077,7 @@ function renderMessageAttributeRow(attribute, index) {
 
 function synchronizeMessageAttribute(messageName, oldName, newName) {
   document.querySelectorAll('[data-trigger-state]').forEach((trigger) => {
-    trigger.actionItems?.forEach((action) => {
+    forEachAction(trigger.actionItems, (action) => {
       if (action.type !== 'sendMessage' || action.args[0] !== messageName) return;
       const values = action.args[1] || {};
       if (oldName && Object.hasOwn(values, oldName)) {
@@ -1606,10 +2137,10 @@ function synchronizeMessageReferences(oldName, newName) {
     if (trigger.dataset.triggerType === 'message' && trigger.dataset.triggerName === oldName) {
       trigger.dataset.triggerName = newName;
     }
-    trigger.actionItems?.forEach((action) => {
+    forEachAction(trigger.actionItems, (action) => {
       if (action.type === 'sendMessage' && action.args[0] === oldName) action.args[0] = newName;
     });
-    trigger.dataset.actions = trigger.actionItems?.map(actionText).join('|') || trigger.dataset.actions;
+    storeTriggerActions(trigger);
     renderTrigger(trigger);
   });
 }
@@ -1684,7 +2215,7 @@ function setupMessages() {
     list.append(row);
   });
   document.querySelectorAll('[data-trigger-state]').forEach((trigger) => {
-    trigger.actionItems?.forEach((action) => {
+    forEachAction(trigger.actionItems, (action) => {
       if (action.type === 'sendMessage' && action.args[0] === 'ZaładujPralkeCfm') {
         action.args[1] = { wagaM: '30', info: 'Udało się' };
       }
@@ -1739,7 +2270,7 @@ document.addEventListener('click', (event) => {
     const name = row.dataset.name;
     const used = [...document.querySelectorAll('[data-trigger-state]')].some((trigger) => (
       (trigger.dataset.triggerType === 'message' && trigger.dataset.triggerName === name)
-      || trigger.actionItems?.some((action) => action.type === 'sendMessage' && action.args[0] === name)
+      || someAction(trigger.actionItems, (action) => action.type === 'sendMessage' && action.args[0] === name)
     ));
     if (used) {
       showToast('Nie można usunąć używanej wiadomości');

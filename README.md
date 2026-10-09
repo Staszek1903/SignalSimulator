@@ -27,3 +27,5 @@ cmake --build --preset debug
 ```
 
 Backend przyjmuje wylacznie poprawny obiekt JSON o rozmiarze do 1 MiB.
+
+Dokumentacja komponentu: [Dispatcher](backend/docs/dispatcher.md).

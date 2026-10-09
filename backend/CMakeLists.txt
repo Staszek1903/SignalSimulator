@@ -12,6 +12,24 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(nlohmann_json)
 
+find_package(Threads REQUIRED)
+
+add_library(dispatcher src/dispatcher.cpp)
+target_include_directories(dispatcher PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_compile_features(dispatcher PUBLIC cxx_std_20)
+target_link_libraries(dispatcher PUBLIC Threads::Threads)
+
+include(CTest)
+if(BUILD_TESTING)
+    add_executable(dispatcher_tests tests/dispatcher_tests.cpp)
+    target_link_libraries(dispatcher_tests PRIVATE dispatcher)
+    foreach(case IN ITEMS ownership validation lifetime exceptions concurrent_sends
+                          registration_during_send concurrent_registration)
+        add_test(NAME dispatcher_${case} COMMAND dispatcher_tests ${case})
+        set_tests_properties(dispatcher_${case} PROPERTIES TIMEOUT 15)
+    endforeach()
+endif()
+
 add_executable(beta_komando_backend
     src/main.cpp
     src/simulation.cpp
@@ -20,7 +38,7 @@ add_executable(beta_komando_backend
 )
 
 target_compile_features(beta_komando_backend PRIVATE cxx_std_20)
-target_link_libraries(beta_komando_backend PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(beta_komando_backend PRIVATE nlohmann_json::nlohmann_json dispatcher)
 
 if(WIN32)
     target_link_libraries(beta_komando_backend PRIVATE ws2_32)
@@ -31,3 +49,4 @@ if(MSVC)
 else()
     target_compile_options(beta_komando_backend PRIVATE -Wall -Wextra -Wpedantic)
 endif()
+

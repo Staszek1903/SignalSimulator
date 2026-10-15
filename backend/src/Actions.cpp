@@ -12,7 +12,7 @@ SendMessage::action(){
 ChangeState::ChangeState(int& actualState, int newState) : actualState(actualState), newState(newState) {};
 
 ChangeState::action(){
-
+    actualState = newState;
 }
 
 template <typename T>

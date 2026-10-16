@@ -1,31 +1,31 @@
-#include "AttributesData.h"
+#include "backend/inc/AttributesData.hpp"
+#include <map>
+#include <string>
 
-class Actions{
-    virtual void action()() const = 0;
-}
-
-class SendMessage : public Actions{
+class SendMessage{
+    private:
     AttributesData attributes;
     std::string messageName;
+    public:
     SendMessage(AttributesData attributes, std::string messageName);
-    void action()();
-}
+    void operator()();
+};
 
 template <typename T>
-class Assign : public Actions{
+class Assign{
+    private:
     T* attribute;
     T value;
-    Assign(std::map<T>& attributesList, T value, string name);
-    void action()();
-}
+    public:
+    Assign(std::map<std::string, T>& attributesList, T value, std::string name);
+    void operator()();
+};
 
-class ChangeState : public Actions{
+class ChangeState{
+    private:
     int* actualState;
     int newState;
+    public:
     ChangeState(int& actualState, int newState);
-    void action()();
-}
-
-//Przypisz wartość do atrybutu (Template), trzymajmy se refke.
-//wyślij message -> struktura z wektorami każdego typu, albo będzie wpisane albo nie, w konstruktorze budujemy strukturę. Stworzyć strukturę message z obiektami i nazwą wiadomości. Dodatkowo zbudować message globalnie bo one nie są per element.
-//zmień stan, stan działa jak przerwanie dla handlera, w change state zmieniamy tylko wartość actual state
+    void operator()();
+};

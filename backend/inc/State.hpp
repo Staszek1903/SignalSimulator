@@ -1,8 +1,13 @@
-#include "../inc/Actions.h"
+#include <functional>
+#include <map>
+#include <string>
+#include <vector>
 
 class State{
     public:
-    std::vector<Actions> getHandlerByTrigger(std::string trigger);
+    using Action = std::function<void()>;
+
+    std::vector<Action>& getHandlerByTrigger(const std::string& trigger);
     private:
-    std::map<std::string, std::vector<Actions>> handlersList;
-}
+    std::map<std::string, std::vector<Action>> handlersList;
+};

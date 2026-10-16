@@ -1,35 +1,35 @@
-#include "../inc/Actions.h"
+#include "backend/inc/Actions.hpp"
 #include <iostream>
 
 SendMessage::SendMessage(AttributesData attributes, std::string messageName){
     
 }
 
-SendMessage::action(){
+void SendMessage::operator()(){
 
 }
 
-ChangeState::ChangeState(int& actualState, int newState) : actualState(actualState), newState(newState) {};
+ChangeState::ChangeState(int& actualState, int newState) : actualState(&actualState), newState(newState) {};
 
-ChangeState::action(){
-    actualState = newState;
+void ChangeState::operator()(){
+    *actualState = newState;
 }
 
 template <typename T>
-Assign<T>::Assign(std::map<T>& attributesList, T value, string name) {
+Assign<T>::Assign(std::map<std::string, T>& attributesList, T value, std::string name) {
     auto it = attributesList.find(name);
     
     if (it != attributesList.end()) {
         std::cout << "Find attribute! name:" << it->first << ".\n";
         this->attribute = &(it->second);
-        this.value = value;
+        this->value = value;
     } else {
         std::cout << "attribute not exist: " << name << "\n";
     }
 }
 
 template <typename T>
-Assign<T>::action(){
+void Assign<T>::operator()(){
     if(attribute) {
         *attribute = value;
     }

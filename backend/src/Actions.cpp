@@ -9,7 +9,7 @@ void SendMessage::operator()(){
 
 }
 
-ChangeState::ChangeState(int& actualState, int newState) : actualState(&actualState), newState(newState) {};
+ChangeState::ChangeState(std::string& actualState, std::string newState) : actualState(&actualState), newState(newState) {};
 
 void ChangeState::operator()(){
     *actualState = newState;

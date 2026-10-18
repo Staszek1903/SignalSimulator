@@ -23,9 +23,9 @@ class Assign{
 
 class ChangeState{
     private:
-    int* actualState;
-    int newState;
+    std::string* actualState;
+    std::string newState;
     public:
-    ChangeState(int& actualState, int newState);
+    ChangeState(std::string& actualState, std::string newState);
     void operator()();
 };

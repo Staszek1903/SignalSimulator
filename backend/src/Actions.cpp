@@ -1,9 +1,9 @@
 #include "backend/inc/Actions.hpp"
 #include <iostream>
 
-SendMessage::SendMessage(AttributesData attributes, std::string messageName){
-    
-}
+SendMessage::SendMessage(AttributesData attributes, std::string messageName): attributes(attributes), messageName(messageName) {};
+
+// MESSAGE_NAME: messageName; PARAMS_INT: 1,2,3; PARAMS_STRING: "str1","str2"; PARAMS_BOOL: true,false,true
 
 void SendMessage::operator()(){
 
@@ -38,3 +38,4 @@ void Assign<T>::operator()(){
 template class Assign<double>;
 template class Assign<std::string>;
 template class Assign<bool>;
+template class Assign<int>;

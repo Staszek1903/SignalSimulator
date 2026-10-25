@@ -11,6 +11,7 @@ class State{
     std::string getName(){
         return name;
     }
+    void addEmptyTrigger(const std::string& trigger);
     private:
     std::string name;
     std::map<std::string, std::vector<Action>> handlersList;

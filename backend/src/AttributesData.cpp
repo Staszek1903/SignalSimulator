@@ -2,19 +2,34 @@
 #include <sstream>
 
 #include "backend/inc/AttributesData.hpp"
+#include "backend/inc/Message.hpp"
 
 //"Name:aaa,Value:2,Type:int; Name:aaa,value:3;Type:int;"
 //ParamsString:"dwdasd","erey".ParamsBool:0,1,0,1.\n"
 
-AttributesData::AttributesData(std::string attributes) {
-
-    std::string oneTypeParams = findDataByKeyword(attributes, "ParamsInt:", ".");
-    std::stringstream ss(oneTypeParams);
-    std::string attribute;
-    while (std::getline(ss, attribute, ';')) {
-        std::string name = findDataByKeyword(attribute, "Name:", ",");
-        std::string value = findDataByKeyword(attribute, "Value:", ",");
-        addAttribute(name, std::stoi(value));
+AttributesData::AttributesData(std::string attributesValues, std::string messageName) {
+    std::stringstream ss(attributesValues);
+    std::string attributeValue;
+    std::vector<std::string> listOfAttributesValues;
+    auto attributesNames = Message::getMessage(messageName);
+    while (std::getline(ss, attributeValue, ',')) {
+        listOfAttributesValues.push_back(attributeValue);
+    }
+    for (const auto& [name, type] : attributesNames) {
+        if(listOfAttributesValues.empty()) {
+            std::cout << "Not enough attribute values provided for message: " << messageName << "Missing attribute for" << name<< std::endl;
+            break;
+        }
+        if(type == Message::AttributeType::INT) {
+            addAttribute(name, std::stoi(listOfAttributesValues.front()));
+        } else if(type == Message::AttributeType::DOUBLE) {
+            addAttribute(name, std::stod(listOfAttributesValues.front()));
+        } else if(type == Message::AttributeType::STRING) {
+            addAttribute(name, listOfAttributesValues.front());
+        } else if(type == Message::AttributeType::BOOL) {
+            addAttribute(name, listOfAttributesValues.front() == "1" || listOfAttributesValues.front() == "true");
+        }
+        listOfAttributesValues.erase(listOfAttributesValues.begin());
     }
 }
 

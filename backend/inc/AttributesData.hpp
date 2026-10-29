@@ -7,7 +7,7 @@ struct AttributesData{
     std::map<std::string, std::string> stringAttributes;
     std::map<std::string, bool> boolAttributes;
 
-    AttributesData(std::string attributes);
+    AttributesData(std::string attributes, std::string messageName);
 
     void addAttribute(std::string name, int value);
     void addAttribute(std::string name, std::string value);

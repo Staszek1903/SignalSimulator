@@ -1,5 +1,4 @@
-#include "backend/inc/State.hpp"
-#include <string>
+#include "backend/inc/state.hpp"
 
 class Element {
     public:
@@ -22,9 +21,8 @@ class Element {
     void addAssignActionByType(std::string action, std::vector<State::Action>& handler, AttributesData& attributes);
     static ActionType actionTypeFromString(const std::string& action);
     static std::string findDataByKeyword(std::string data, std::string keyword, std::string delimeter=";");
-    void readAttributesFromTheString(const std::string& action);
+    void reloadHandlersAndTriggers(const std::string& data);
     AttributesData attributes;
     std::string actualState;
     std::map<std::string, State> statesList;
-    //std::vector<State> statesList;
 };

@@ -1,5 +1,5 @@
 #include <iostream>
-#include "backend/inc/State.hpp"
+#include "backend/inc/state.hpp"
 
 std::vector<State::Action>& State::getHandlerByTrigger(const std::string& trigger){
     return handlersList[trigger];

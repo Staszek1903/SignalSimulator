@@ -35,9 +35,15 @@ add_executable(beta_komando_backend
     src/simulation.cpp
     src/simulation_controller.cpp
     src/websocket.cpp
+    src/actions.cpp
+    src/attributesData.cpp
+    src/element.cpp
+    src/message.cpp
+    src/state.cpp
 )
 
 target_compile_features(beta_komando_backend PRIVATE cxx_std_20)
+target_include_directories(beta_komando_backend PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/..")
 target_link_libraries(beta_komando_backend PRIVATE nlohmann_json::nlohmann_json dispatcher)
 
 if(WIN32)
@@ -49,4 +55,3 @@ if(MSVC)
 else()
     target_compile_options(beta_komando_backend PRIVATE -Wall -Wextra -Wpedantic)
 endif()
-

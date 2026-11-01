@@ -1,13 +1,11 @@
-#include "backend/inc/AttributesData.hpp"
-#include <map>
-#include <string>
+#include "backend/inc/message.hpp"
 
 class SendMessage{
     private:
     AttributesData attributes;
     std::string messageName;
     public:
-    SendMessage(AttributesData attributes, std::string messageName);
+    SendMessage(std::string attributesValues, std::string messageName);
     void operator()();
 };
 

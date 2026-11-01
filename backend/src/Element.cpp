@@ -1,7 +1,7 @@
 #include <iostream>
 #include <sstream>
-#include "backend/inc/Actions.hpp"
-#include "backend/inc/Element.hpp"
+#include "backend/inc/actions.hpp"
+#include "backend/inc/element.hpp"
 
 void Element::runTrigger(std::string trigger){
     try {
@@ -37,6 +37,8 @@ std::string Element::findDataByKeyword(std::string data, std::string keyword, st
         } else {
             return "Data is empty!";
         }
+    } else {
+        return "Keyword not found!";
     }
 
 }
@@ -63,7 +65,7 @@ void Element::addAssignActionByType(std::string action, std::vector<State::Actio
     } else if(type == "String") {
         handler.push_back(Assign<std::string>{attributes.stringAttributes, value, parameterName});
     } else if(type == "Bool") {
-        handler.push_back(Assign<bool>{attributes.boolAttributes, std::stoi(value), parameterName});
+        handler.push_back(Assign<bool>{attributes.boolAttributes, static_cast<bool>(std::stoi(value)), parameterName});
     } else if(type == "Double") {
         handler.push_back(Assign<double>{attributes.doubleAttributes, std::stod(value), parameterName});
     } 
@@ -77,19 +79,15 @@ void Element::addAction(std::string trigger, std::string action){
     auto& handler = statesList.at(actualState).getHandlerByTrigger(trigger);
 
     switch(actionType){
-        case ActionType::SEND_MESSAGE: {
-            AttributesData attributes(findDataByKeyword(action, "Parameters:"));        
-            handler.emplace_back(SendMessage{attributes, findDataByKeyword(action, "MessageName:")});
+        case ActionType::SEND_MESSAGE:  
+            handler.emplace_back(SendMessage{findDataByKeyword(action, "Parameters:"), findDataByKeyword(action, "MessageName:")});
             break;
-        }
         case ActionType::ASSIGN:
             addAssignActionByType(action, handler, attributes);
             break;
-        case ActionType::CHANGE_STATE: {
-            std::string newState = findDataByKeyword(action, "StateName:");
-            handler.emplace_back(ChangeState{actualState, newState});
+        case ActionType::CHANGE_STATE:
+            handler.emplace_back(ChangeState{actualState, findDataByKeyword(action, "StateName:")});
             break;
-        }
         default:
             std::cout << "Wrong action type" << "\n";
             return;

@@ -1,12 +1,11 @@
-#include "backend/inc/Actions.hpp"
+#include "backend/inc/actions.hpp"
 #include <iostream>
 
-SendMessage::SendMessage(AttributesData attributes, std::string messageName): attributes(attributes), messageName(messageName) {};
-
-// MESSAGE_NAME: messageName; PARAMS_INT: 1,2,3; PARAMS_STRING: "str1","str2"; PARAMS_BOOL: true,false,true
+SendMessage::SendMessage(std::string attributesValues, std::string messageName): attributes(attributesValues, messageName), messageName(messageName) {};
 
 void SendMessage::operator()(){
-
+    std::string encodedMessage = Message::encodeMessage(messageName, attributes);
+    std::cout << "Sending message: " << encodedMessage << std::endl;
 }
 
 ChangeState::ChangeState(std::string& actualState, std::string newState) : actualState(&actualState), newState(newState) {};

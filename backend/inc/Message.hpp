@@ -1,8 +1,4 @@
-#include <string>
-#include <vector>
-#include <map>
-
-#include "backend/inc/AttributesData.hpp"
+#include "backend/inc/attributesData.hpp"
 
 class Message{
     public:
@@ -19,8 +15,8 @@ class Message{
     public:
         static void addMessage(const std::string& messageName, const oneMessageAttributes& attributes);
         static void removeMessage(const std::string& messageName);
-        static oneMessageAttributes getMessage(const std::string& messageName);
-        static void encodeMessage(const std::string& messageName, AttributesData attributes);
+        static oneMessageAttributes getMessageAttributesNames(const std::string& messageName);
+        static std::string encodeMessage(const std::string& messageName, AttributesData attributes);
         static void addAttributeToMessage(const std::string& messageName, const std::string& attributeName, AttributeType type);
         static void removeAttributeFromMessage(const std::string& messageName, const std::string& attributeName);
 };

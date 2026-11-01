@@ -4,8 +4,8 @@
 
 #include "backend/inc/message.hpp"
 
-//"Name:aaa,Value:2,Type:int; Name:aaa,value:3;Type:int;"
-//ParamsString:"dwdasd","erey".ParamsBool:0,1,0,1.\n"
+//30,"Udalo się".
+//wagaM:int, info:string
 
 AttributesData::AttributesData(std::string attributesValues, std::string messageName) {
     std::stringstream ss(attributesValues);

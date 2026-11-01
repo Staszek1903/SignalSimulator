@@ -3,14 +3,14 @@
 #include "backend/inc/actions.hpp"
 #include "backend/inc/element.hpp"
 
-void Element::runTrigger(std::string trigger){
+void Element::runTrigger(std::string trigger){ //add remebering of steps
     try {
         auto& handler = statesList.at(actualState).getHandlerByTrigger(trigger);
         std::string tmpState = statesList.at(actualState).getName();
         for(const auto& atomicProcedure: handler){
             atomicProcedure();
             if(tmpState != actualState) {
-                runTrigger("start");
+                runTrigger("start"); // deffered functions
                 break;
         }
     }
@@ -42,11 +42,33 @@ std::string Element::findDataByKeyword(std::string data, std::string keyword, st
     }
 
 }
-//"Action:Assign;Type:Int/String/Bool;Value:4, ParameterName:Name\n"
-//"Action:ChangeState;StateName:B\n"
-//"Action:SendMessage;MessageName:Ssdasd;Parameters;ParamsInt:2,3,4,5.ParamsString:"dwdasd","erey".ParamsBool:0,1,0,1.\n"
 
 //
+
+//TriggerName:start{
+//    (Action:Assign;Type:Int;Value:0;ParameterName:waga)
+//}
+//TriggerName:ZaladujPralkeReq{
+//    (Action:Assign;Type:Int;Value:5;ParameterName:waga)
+//    (Action:SendMessage;MessageName:ZaladujPralkeCfm;Parameters:30,"Udalo się".)
+//    (Action:ChangeState;StateName:PRANIE)
+//}
+
+void Element::reloadHandlersAndTriggers(const std::string& data){
+    std::stringstream ss(data);
+    std::string triggerBlock;
+    while (std::getline(ss, triggerBlock, '}')) {
+        std::string triggerName = findDataByKeyword(triggerBlock, "TriggerName:", "{");
+        std::stringstream triggerBlockStream(triggerBlock);
+        std::string action;
+        std::getline(triggerBlockStream, action, ')');
+        addTrigger(triggerName, action.substr(13 + triggerName.length() + 1)); // First action is added as the initial action for the trigger
+        while (std::getline(triggerBlockStream, action, ')')) {
+            addAction(triggerName, action.substr(1)); // Add subsequent actions for the trigger
+        }
+    }
+}
+
 Element::ActionType Element::actionTypeFromString(const std::string& data){
     std::string action = findDataByKeyword(data, "Action");
     if(action == "SendMessage") return ActionType::SEND_MESSAGE;
